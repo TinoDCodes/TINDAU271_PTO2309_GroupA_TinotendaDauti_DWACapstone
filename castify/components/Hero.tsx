@@ -17,7 +17,7 @@ export const Hero = () => {
 
         <Button
           asChild
-          className="mt-5 lg:mt-10 w-fit px-2 md:px-4 lg:px-6 lg:py-6 text-[0.6rem] md:text-sm lg:text-lg font-semibold bg-[var(--button-primary)] hover:bg-[var(--button-primary-hover)]"
+          className="rounded-full mt-3 md:mt-5 lg:mt-10 w-fit px-2 md:px-4 lg:px-6 lg:py-6 text-[0.6rem] md:text-sm lg:text-lg font-semibold bg-[var(--button-primary)] hover:bg-[var(--button-primary-hover)]"
         >
           <Link href="/explore">
             Explore shows{" "}

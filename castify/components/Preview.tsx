@@ -11,6 +11,12 @@ interface Props {
 export const Preview = ({ previewShow }: Props) => {
   const updatedDate = format(new Date(previewShow.updated), "PP");
 
+  /**
+   * Generates a comma-separated list of genre titles for the given show.
+   *
+   * It maps genre IDs from the show to their corresponding titles using `genresMap`
+   * and combines them into a single string.
+   */
   const genreList = previewShow.genres.reduce((acc, genreId) => {
     const genreTitle = genresMap.find((genre) => genre.id === genreId)?.title;
     return acc === "" ? `${genreTitle}` : `${acc}, ${genreTitle}`;
@@ -40,7 +46,7 @@ export const Preview = ({ previewShow }: Props) => {
       <p className="text-[0.6rem] lg:text-xs text-center font-medium line-clamp-2">
         {genreList}
       </p>
-      <p className="text-[0.6rem] lg:text-xs text-zinc-500">
+      <p className="text-[0.6rem] lg:text-xs text-zinc-500 text-center">
         Updated: {updatedDate}
       </p>
     </Link>

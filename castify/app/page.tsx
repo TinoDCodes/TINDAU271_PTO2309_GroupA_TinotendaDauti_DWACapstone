@@ -1,7 +1,7 @@
 "use client";
 
 import { Hero } from "@/components/Hero";
-import { ShowsUserMightLike } from "@/components/ShowsUserMightLike";
+import { HomeShowsCarousel } from "@/components/HomeShowsCarousel";
 import { TPodcastPreview } from "@/utils/types";
 import { useEffect, useState } from "react";
 
@@ -29,14 +29,21 @@ export default function Home() {
     <div className="wrapper">
       <Hero />
 
-      {shows.length > 0 && (
-        <section className="my-4 lg:my-8">
-          <h4 className="text-sm lg:text-base font-bold font-raleway">
-            👍 You might like these...
-          </h4>
-          <ShowsUserMightLike shows={shows} />
-        </section>
-      )}
+      {/* ---------- SHOWS USER MIGHT LIKE ---------- */}
+      <section className="my-4 lg:my-8">
+        <h4 className="text-sm lg:text-base font-bold font-raleway">
+          👍 You might like these...
+        </h4>
+        <HomeShowsCarousel shows={shows} section="might-like" />
+      </section>
+
+      {/* ---------- RECENTLY AIRED SHOWS ---------- */}
+      <section className="my-2 lg:my-4">
+        <h4 className="text-sm lg:text-base font-bold font-raleway">
+          Recently aired podcasts
+        </h4>
+        <HomeShowsCarousel shows={shows} section="most-recent" />
+      </section>
     </div>
   );
 }
