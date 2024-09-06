@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
+import { Nunito, Raleway } from "next/font/google";
 import "./globals.css";
+import { Header } from "@/components/Header";
+
+const nunito = Nunito({ subsets: ["latin"], variable: "--font-nunito" });
+const raleway = Raleway({ subsets: ["latin"], variable: "--font-raleway" });
 
 export const metadata: Metadata = {
   // Primary meta tags
@@ -38,7 +43,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={` antialiased`}>{children}</body>
+      <body className={`${nunito.variable} ${raleway.variable} antialiased`}>
+        <Header />
+        {children}
+      </body>
     </html>
   );
 }

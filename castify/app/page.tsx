@@ -1,14 +1,9 @@
-import Image from "next/image";
+import { Hero } from "@/components/Hero";
 
 export default function Home() {
   return (
-    <div>
-      <Image
-        src="/assets/castify-logo-dark.png"
-        alt="Castify logo"
-        height={20}
-        width={150}
-      />
+    <div className="wrapper">
+      <Hero />
     </div>
   );
 }
