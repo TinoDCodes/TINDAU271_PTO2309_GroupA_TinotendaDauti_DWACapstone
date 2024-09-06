@@ -1,6 +1,4 @@
-import { TPodcastGenre } from "./types";
-
-export const genres: TPodcastGenre[] = [
+export const genresMap = [
   { id: 1, title: "Personal Growth" },
   { id: 2, title: "True Crime and Investigative Journalism" },
   { id: 3, title: "History" },
