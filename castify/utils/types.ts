@@ -34,3 +34,15 @@ export type TPodcastPreview = {
   genres: number[];
   updated: string;
 };
+
+export type TSortOptionValue =
+  | "default"
+  | "titleAsc"
+  | "titleDesc"
+  | "dateAsc"
+  | "dateDesc";
+
+export type TSortOption = {
+  value: TSortOptionValue;
+  title: string;
+};

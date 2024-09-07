@@ -1,3 +1,5 @@
+"use client";
+
 import { Heart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,10 +11,13 @@ import {
   TooltipTrigger,
 } from "./ui/tooltip";
 import { UserSettings } from "./UserSettings";
+import { usePathname } from "next/navigation";
 
 export const Header = () => {
+  const pathname = usePathname();
+
   return (
-    <header className="wrapper flex items-center shadow-lg">
+    <header className="wrapper flex items-center justify-between shadow-lg">
       {/* ---------- APP LOGO ---------- */}
       <Link href="/">
         <Image
@@ -25,8 +30,17 @@ export const Header = () => {
         />
       </Link>
 
+      <Link
+        href="/explore"
+        className={`${
+          pathname === "/explore" ? "text-[#845ec2]" : "text-zinc-500"
+        } text-sm md:text-base lg:text-lg font-semibold hover:underline underline-offset-8`}
+      >
+        Explore <span className="hidden lg:inline">shows</span>
+      </Link>
+
       {/* ---------- USER AUTH / FAVOURITES / SETTINGS ---------- */}
-      <section className="ml-auto flex items-center gap-3">
+      <section className="flex items-center gap-3">
         {/* favourites */}
         <TooltipProvider>
           <Tooltip>
