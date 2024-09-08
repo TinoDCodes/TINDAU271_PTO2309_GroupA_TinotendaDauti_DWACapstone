@@ -8,8 +8,8 @@ const sortOptions: TSortOption[] = [
   { value: "default", title: "-- Default --" },
   { value: "titleAsc", title: "title A-Z" },
   { value: "titleDesc", title: "title Z-A" },
-  { value: "dateAsc", title: "updated asc" },
-  { value: "dateDesc", title: "updated desc" },
+  { value: "dateDesc", title: "most recent" },
+  { value: "dateAsc", title: "oldest" },
 ];
 
 export const SortShows = () => {
