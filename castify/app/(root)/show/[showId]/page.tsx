@@ -1,5 +1,6 @@
 "use client";
 
+import { SeasonTile } from "@/components/SeasonTile";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { TPodcastShow } from "@/utils/types";
@@ -30,6 +31,11 @@ export default function ShowPage({ params }: Props) {
     getShow();
   }, []);
 
+  const handleOnSeasonClick = (season: number) => {
+    if (show !== "error" && show !== "loading")
+      console.log(`redirect to: /show/${show.id}/season/${season}`);
+  };
+
   // TODO: design loading state view
   /* ---------- LOADING STATE DISPLAY ---------- */
   if (show === "loading") {
@@ -45,7 +51,7 @@ export default function ShowPage({ params }: Props) {
   return (
     <div className="wrapper grid grid-cols-1 md:grid-cols-2 gap-4">
       {/* ---- LHS or TOP section depending on display size ---- */}
-      <section className="w-full md:h-full flex flex-col gap-2 lg:gap-4 items-center bg-muted pb-4 md:py-6 lg:py-8 rounded-t-lg md:rounded-r-none  md:rounded-l-lg">
+      <section className="w-full md:h-full flex flex-col gap-2 md:gap-4 items-center md:justify-center bg-muted pb-4 md:py-4 lg:py-8 rounded-t-lg md:rounded-r-none  md:rounded-l-lg">
         <Image
           src={show.image}
           alt="Show Cover Image"
@@ -64,7 +70,7 @@ export default function ShowPage({ params }: Props) {
         </p>
 
         {/* genres */}
-        <small className="text-xs lg:text-sm text-[#845ec2]">
+        <small className="text-xs lg:text-sm text-[#845ec2] text-center max-w-72 lg:max-w-[24rem] xl:max-w-[30rem]">
           <span className="font-semibold text-black">genres:&nbsp;&nbsp;</span>
           {show.genres && show.genres.join(", ")}
         </small>
@@ -72,14 +78,22 @@ export default function ShowPage({ params }: Props) {
         <small className="text-xs lg:text-sm text-zinc-500">
           updated: {format(new Date(show.updated), "PP")}
         </small>
+
+        <p className="text-xs lg:text-sm font-semibold text-[#ff9671]">
+          {show.seasons.length} {show.seasons.length > 1 ? "seasons" : "season"}
+        </p>
       </section>
 
       {/* ---- RHS or BOTTOM section depending on display size ---- */}
-      <ScrollArea className="w-full h-full max-h-[40rem]">
+      <ScrollArea className="w-full h-full max-h-[37rem] lg:max-h-[40rem]">
         <div className="p-4">
           {show.seasons.map((season) => (
             <>
-              <h3 key={season.season}>season {season.season}</h3>
+              <SeasonTile
+                key={season.season}
+                season={season}
+                onSeasonClick={() => handleOnSeasonClick(season.season)}
+              />
               <Separator className="my-2" />
             </>
           ))}
