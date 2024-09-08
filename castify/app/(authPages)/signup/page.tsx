@@ -14,11 +14,27 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { signup } from "./actions";
 import { useEffect, useState } from "react";
+import { useFormStatus } from "react-dom";
 
 interface Props {
   searchParams: {
     error?: string;
   };
+}
+
+function Submit() {
+  const { pending } = useFormStatus();
+  return (
+    <Button
+      formAction={signup}
+      disabled={pending}
+      className={`${
+        pending && "animate-pulse"
+      } bg-[#d65db1] hover:bg-[#d65db2b8] lg:text-lg lg:mt-2`}
+    >
+      {pending ? "processing..." : "Sign Up"}
+    </Button>
+  );
 }
 
 export default function SignUpPage({ searchParams }: Props) {
@@ -90,12 +106,7 @@ export default function SignUpPage({ searchParams }: Props) {
               />
             </div>
 
-            <Button
-              formAction={signup}
-              className="bg-[#d65db1] hover:bg-[#d65db2b8] lg:text-lg lg:mt-2"
-            >
-              Sign Up
-            </Button>
+            <Submit />
           </form>
         </CardContent>
         <CardFooter className="flex justify-center">

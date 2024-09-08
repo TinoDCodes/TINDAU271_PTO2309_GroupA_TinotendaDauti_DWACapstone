@@ -14,12 +14,28 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { login } from "./actions";
 import { useEffect, useState } from "react";
+import { useFormStatus } from "react-dom";
 
 interface Props {
   searchParams: {
     error?: string;
     signup?: string;
   };
+}
+
+function Submit() {
+  const { pending } = useFormStatus();
+  return (
+    <Button
+      formAction={login}
+      disabled={pending}
+      className={`${
+        pending && "animate-pulse"
+      } bg-[#d65db1] hover:bg-[#d65db2b8] lg:text-lg lg:mt-2`}
+    >
+      {pending ? "Logging in..." : "Log In"}
+    </Button>
+  );
 }
 
 export default function LoginPage({ searchParams }: Props) {
@@ -77,12 +93,7 @@ export default function LoginPage({ searchParams }: Props) {
               />
             </div>
 
-            <Button
-              formAction={login}
-              className="bg-[#d65db1] hover:bg-[#d65db2b8] lg:text-lg lg:mt-2"
-            >
-              Log In
-            </Button>
+            <Submit />
           </form>
         </CardContent>
         <CardFooter className="flex justify-center">

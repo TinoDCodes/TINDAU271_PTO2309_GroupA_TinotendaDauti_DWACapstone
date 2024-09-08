@@ -1,8 +1,7 @@
-import { Header } from "@/components/Header";
-
 import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 
-export default async function MainAppLayout({
+export default async function AuthPagesLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -11,10 +10,7 @@ export default async function MainAppLayout({
 
   const { data, error } = await supabase.auth.getUser();
 
-  return (
-    <main>
-      <Header userData={data} />
-      {children}
-    </main>
-  );
+  if (!error && data.user) redirect("/");
+
+  return <div>{children}</div>;
 }
