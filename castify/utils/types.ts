@@ -6,13 +6,14 @@ export type TPodcastGenre = {
 };
 
 export type TPodcastEpisode = {
-  id: number;
-  file: string;
+  episode: number;
   title: string;
+  description: string;
+  file: string;
 };
 
 export type TPodcastSeason = {
-  id: number;
+  season: number;
   title: string;
   image: string;
   episodes: TPodcastEpisode[];
@@ -23,6 +24,9 @@ export type TPodcastShow = {
   title: string;
   description: string;
   seasons: TPodcastSeason[];
+  image: string;
+  genres: string[];
+  updated: string;
 };
 
 export type TPodcastPreview = {

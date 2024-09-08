@@ -21,7 +21,7 @@ export const Preview = ({ previewShow }: Props) => {
 
   return (
     <button
-      onClick={() => router.push("/")}
+      onClick={() => router.push(`/show/${previewShow.id}`)}
       className="flex flex-col lg:gap-1 w-[7rem] md:w-[9rem] lg:w-[13rem] h-[14.5rem] md:h-[16rem] lg:h-[21rem] items-center justify-evenly rounded-lg shadow-md p-2 lg:p-3"
     >
       <Image
