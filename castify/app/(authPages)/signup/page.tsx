@@ -40,6 +40,7 @@ function Submit() {
 export default function SignUpPage({ searchParams }: Props) {
   const [signUpError, setSignUpError] = useState<string>("");
 
+  // used to update the error state and show an error message if signup failed.
   useEffect(() => {
     if (searchParams.error) setSignUpError(searchParams.error);
   }, [searchParams]);

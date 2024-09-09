@@ -11,7 +11,7 @@ export const SeasonTile = ({ season, onSeasonClick }: Props) => {
   return (
     <button
       onClick={onSeasonClick}
-      className="w-full flex items-center justify-between rounded-md gap-1 px-1 lg:px-6 lg:py-2 hover:bg-zinc-100 hover:scale-105"
+      className="w-full flex items-center justify-between rounded-md gap-1 px-1 lg:px-6 lg:py-2 hover:bg-zinc-100 hover:scale-105 transition"
     >
       <article className="flex items-center gap-4">
         <Image

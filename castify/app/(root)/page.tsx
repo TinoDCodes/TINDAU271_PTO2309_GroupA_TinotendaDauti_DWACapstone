@@ -13,7 +13,7 @@ export default function Home() {
     const getPreviews = async () => {
       const previews = await fetch("https://podcast-api.netlify.app/shows")
         .then((res) => res.json())
-        .catch((error) => "error");
+        .catch(() => "error");
 
       setShows(previews);
     };
@@ -35,8 +35,8 @@ export default function Home() {
           />
 
           <strong className="text-sm lg:text-base text-center text-zinc-400">
-            Sorry, we couldn't load the podcasts. Please try again or contact
-            support if the problem persists.
+            Sorry, we couldn&apos;t load the podcasts. Please try again or
+            contact support if the problem persists.
           </strong>
         </article>
       </div>

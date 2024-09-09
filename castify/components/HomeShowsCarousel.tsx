@@ -89,7 +89,7 @@ export const HomeShowsCarousel = ({ shows, section }: Props) => {
       const mostRecentShows = getMostRecentShows(shows);
       setShowsToDisplay(mostRecentShows);
     }
-  }, [shows]);
+  }, [shows, section]);
 
   if (showsToDisplay === "loading") {
     return (

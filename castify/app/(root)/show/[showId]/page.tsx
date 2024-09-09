@@ -20,19 +20,27 @@ export default function ShowPage({ params }: Props) {
     "loading"
   );
 
+  /**
+   * Fetches details for a specific podcast show based on the show ID from the URL parameters.
+   *
+   * 1. Sends a request to the podcast API using the show ID from `params`.
+   * 2. If the request succeeds, the show data is parsed and stored in the state via `setShow`.
+   * 3. If an error occurs during the fetch, the state is still updated with the error response.
+   *
+   */
   useEffect(() => {
     const getShow = async () => {
       const response = await fetch(
         `https://podcast-api.netlify.app/id/${params.showId}`
       )
         .then((res) => res.json())
-        .catch((error) => "error");
+        .catch(() => "error");
 
       setShow(response);
     };
 
     getShow();
-  }, []);
+  }, [params.showId]);
 
   const handleOnSeasonClick = (seasonId: number) => {
     router.push(`/show/${params.showId}/season/${seasonId}`);
@@ -69,8 +77,8 @@ export default function ShowPage({ params }: Props) {
           />
 
           <strong className="text-sm lg:text-base text-center text-zinc-400">
-            Sorry, we couldn't load the data for this show. Please try again or
-            contact support if the problem persists.
+            Sorry, we couldn&apos;t load the data for this show. Please try
+            again or contact support if the problem persists.
           </strong>
         </article>
       </div>

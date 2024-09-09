@@ -15,6 +15,12 @@ export const Preview = ({ previewShow }: Props) => {
   const router = useRouter();
   const updatedDate = format(new Date(previewShow.updated), "PP");
 
+  /**
+   * List of genre titles associated with the show.
+   *
+   * Created by finding the genre objects in `genresMap` that have an id matching the ids in
+   * the show's genres array.
+   */
   const genreList = previewShow.genres.map((genreId) =>
     genresMap.find((genre) => genre.id === genreId)
   );
@@ -22,7 +28,7 @@ export const Preview = ({ previewShow }: Props) => {
   return (
     <button
       onClick={() => router.push(`/show/${previewShow.id}`)}
-      className="flex flex-col lg:gap-1 w-[7rem] md:w-[9rem] lg:w-[13rem] h-[14.5rem] md:h-[16rem] lg:h-[21rem] items-center justify-evenly rounded-lg shadow-md p-2 lg:p-3"
+      className="flex flex-col lg:gap-1 w-[7rem] md:w-[9rem] lg:w-[13rem] h-[14.5rem] md:h-[16rem] lg:h-[21rem] items-center justify-evenly rounded-lg shadow-md p-2 lg:p-3 hover:scale-95 transition"
     >
       <Image
         src={previewShow.image}
@@ -49,7 +55,7 @@ export const Preview = ({ previewShow }: Props) => {
             <Link
               href={`/explore?genre=${genre?.title}`}
               onClick={(e) => e.stopPropagation()}
-              className="text-[#4b4453]"
+              className="text-[#4b4453] hover:text-blue-500 transition"
             >
               {genre?.title}
             </Link>

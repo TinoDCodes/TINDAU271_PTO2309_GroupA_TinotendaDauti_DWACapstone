@@ -2,7 +2,6 @@
 
 import { EpisodeTile } from "@/components/EpisodeTile";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TPodcastSeason } from "@/utils/types";
 import { ArrowLeftIcon } from "lucide-react";
@@ -28,20 +27,21 @@ export default function SeasonPage({ params }: Props) {
         `https://podcast-api.netlify.app/id/${params.showId}`
       )
         .then((res) => res.json())
-        .catch((error) => "error");
+        .catch(() => "error");
 
       if (response !== "error") {
+        // Find the season based on the seasonId in the URL params
         const seasonFound = response.seasons.find(
           (item: TPodcastSeason) => item.season.toString() === params.seasonId
         );
-        seasonFound ? setSeason(seasonFound) : setSeason("error");
+        setSeason(seasonFound || "error");
       } else {
         setSeason(response);
       }
     };
 
     getSeason();
-  }, []);
+  }, [params.seasonId, params.showId]);
 
   /* ---------- LOADING STATE DISPLAY ---------- */
   if (season === "loading") {
@@ -70,8 +70,8 @@ export default function SeasonPage({ params }: Props) {
           />
 
           <strong className="text-sm lg:text-base text-center text-zinc-400">
-            Sorry, we couldn't load the data for this season. Please try again
-            or contact support if the problem persists.
+            Sorry, we couldn&apos;t load the data for this season. Please try
+            again or contact support if the problem persists.
           </strong>
         </article>
       </div>
@@ -83,7 +83,7 @@ export default function SeasonPage({ params }: Props) {
       <section className="w-full flex flex-col md:flex-row gap-3 md:gap-0 items-center justify-between md:bg-violet-50 md:px-2 md:py-4 rounded-md">
         <Link
           href={`/show/${params.showId}`}
-          className="text-sm mr-auto md:mr-0 lg:text-base flex items-center gap-2 lg:gap-3 text-zinc-500 hover:scale-95"
+          className="text-sm mr-auto md:mr-0 lg:text-base flex items-center gap-2 lg:gap-3 text-zinc-500 hover:scale-95 transition"
         >
           <ArrowLeftIcon className="h-4 w-4" /> Back
         </Link>

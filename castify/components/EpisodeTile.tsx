@@ -26,7 +26,7 @@ export const EpisodeTile = ({ episode }: Props) => {
         <Button size="lg" variant="ghost" className="p-0 hover:bg-transparent">
           <PlayIcon
             strokeWidth={2}
-            className="h-5 w-5 lg:h-6 lg:w-6 text-zinc-400 hover:text-green-500"
+            className="h-5 w-5 lg:h-6 lg:w-6 text-zinc-400 hover:text-green-500 hover:fill-green-500 transition"
           />
         </Button>
       </section>

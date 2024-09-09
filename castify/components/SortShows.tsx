@@ -49,7 +49,7 @@ export const SortShows = () => {
     }
 
     router.push(`${pathname}?${newParams.toString()}`);
-  }, [sortValue]);
+  }, [sortValue, pathname, router, searchParams]);
 
   return (
     <div className="ml-auto flex items-center gap-2">

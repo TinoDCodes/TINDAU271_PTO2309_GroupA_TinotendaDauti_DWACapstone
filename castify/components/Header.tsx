@@ -15,6 +15,7 @@ import { usePathname } from "next/navigation";
 import { User } from "@supabase/supabase-js";
 import { Button } from "./ui/button";
 import { createClient } from "@/utils/supabase/client";
+import { Separator } from "./ui/separator";
 
 interface Props {
   userData: {
@@ -25,12 +26,15 @@ interface Props {
 export const Header = ({ userData }: Props) => {
   const pathname = usePathname();
 
+  /**
+   *  Handles user sign out using supabase (client side) client.
+   */
   const handleSignOut = () => {
     const supabase = createClient();
 
     supabase.auth
       .signOut()
-      .then((res) => window.location.reload())
+      .then(() => window.location.reload())
       .catch((error) => console.log(error));
   };
 
@@ -53,7 +57,7 @@ export const Header = ({ userData }: Props) => {
         href="/explore"
         className={`${
           pathname === "/explore" ? "text-[#845ec2]" : "text-zinc-500"
-        } text-sm md:text-base lg:text-lg font-semibold hover:underline underline-offset-8`}
+        } text-sm md:text-base lg:text-lg font-semibold hover:underline underline-offset-8 transition`}
       >
         Explore <span className="hidden lg:inline">shows</span>
       </Link>
@@ -63,7 +67,7 @@ export const Header = ({ userData }: Props) => {
         {/* favourites */}
         <TooltipProvider>
           <Tooltip>
-            <TooltipTrigger>
+            <TooltipTrigger className="hidden md:inline">
               <Link href="/favourites">
                 <Heart
                   color="#dc2626"
@@ -112,6 +116,8 @@ export const Header = ({ userData }: Props) => {
             )}
 
             <UserSettings />
+
+            <Separator />
 
             {/* Log In button */}
             {!userData.user && (

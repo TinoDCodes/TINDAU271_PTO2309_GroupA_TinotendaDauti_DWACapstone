@@ -41,6 +41,7 @@ function Submit() {
 export default function LoginPage({ searchParams }: Props) {
   const [loginError, setLoginError] = useState<string>("");
 
+  // used to update the error state and show an error message if the login failed.
   useEffect(() => {
     if (searchParams.error) setLoginError(searchParams.error);
   }, [searchParams]);
@@ -99,7 +100,7 @@ export default function LoginPage({ searchParams }: Props) {
         <CardFooter className="flex justify-center">
           <div className="flex items-center gap-1">
             <p className="text-xs text-zinc-500 lg:text-sm">
-              Don't have an account?
+              Don&apos;t have an account?
             </p>
             <Link
               href="/signup"

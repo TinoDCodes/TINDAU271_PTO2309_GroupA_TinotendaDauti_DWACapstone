@@ -1,4 +1,5 @@
 import { Header } from "@/components/Header";
+import { SearchInput } from "@/components/SearchInput";
 
 import { createClient } from "@/utils/supabase/server";
 
@@ -9,11 +10,12 @@ export default async function MainAppLayout({
 }>) {
   const supabase = createClient();
 
-  const { data, error } = await supabase.auth.getUser();
+  const { data } = await supabase.auth.getUser();
 
   return (
     <main>
       <Header userData={data} />
+      <SearchInput />
       {children}
     </main>
   );
