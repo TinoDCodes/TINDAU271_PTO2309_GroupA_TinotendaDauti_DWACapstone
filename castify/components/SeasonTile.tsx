@@ -20,7 +20,8 @@ export const SeasonTile = ({ season, onSeasonClick }: Props) => {
           height="0"
           width="0"
           sizes="100vw"
-          className="h-[4rem] lg:h-[5rem] w-[3rem] lg:w-[4rem]"
+          className="h-[4rem] lg:h-[5rem] w-[3rem] lg:w-[4rem] rounded-sm"
+          priority
         />
 
         <div className="flex flex-col gap-1">

@@ -3,9 +3,11 @@
 import { SeasonTile } from "@/components/SeasonTile";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
 import { TPodcastShow } from "@/utils/types";
 import { format } from "date-fns";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface Props {
@@ -13,6 +15,7 @@ interface Props {
 }
 
 export default function ShowPage({ params }: Props) {
+  const router = useRouter();
   const [show, setShow] = useState<TPodcastShow | "loading" | "error">(
     "loading"
   );
@@ -31,21 +34,47 @@ export default function ShowPage({ params }: Props) {
     getShow();
   }, []);
 
-  const handleOnSeasonClick = (season: number) => {
-    if (show !== "error" && show !== "loading")
-      console.log(`redirect to: /show/${show.id}/season/${season}`);
+  const handleOnSeasonClick = (seasonId: number) => {
+    router.push(`/show/${params.showId}/season/${seasonId}`);
   };
 
-  // TODO: design loading state view
   /* ---------- LOADING STATE DISPLAY ---------- */
   if (show === "loading") {
-    return <div className="wrapper">loading...</div>;
+    return (
+      <div className="wrapper grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Skeleton className="w-full h-[25rem] md:h-[36rem] lg:h-[40rem]" />
+
+        <div className="flex flex-col gap-3">
+          <Skeleton className="w-full h-[4rem] md:h-[5rem] lg:h-[6rem]" />
+          <Skeleton className="w-full h-[4rem] md:h-[5rem] lg:h-[6rem]" />
+          <Skeleton className="w-full h-[4rem] md:h-[5rem] lg:h-[6rem]" />
+          <Skeleton className="w-full h-[4rem] md:h-[5rem] lg:h-[6rem]" />
+        </div>
+      </div>
+    );
   }
 
-  // TODO: design error state view
   /* ---------- ERROR STATE DISPLAY ---------- */
   if (show === "error") {
-    return <div className="wrapper">OOPS, something went wrong!</div>;
+    return (
+      <div className="wrapper w-full h-full">
+        <article className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+          <Image
+            src="/icons/error-triangle.svg"
+            alt="Error icon"
+            height="0"
+            width="0"
+            sizes="100vw"
+            className="h-20 w-20 lg:h-28 lg:w-28 opacity-25"
+          />
+
+          <strong className="text-sm lg:text-base text-center text-zinc-400">
+            Sorry, we couldn't load the data for this show. Please try again or
+            contact support if the problem persists.
+          </strong>
+        </article>
+      </div>
+    );
   }
 
   return (
@@ -59,9 +88,10 @@ export default function ShowPage({ params }: Props) {
           width="0"
           sizes="100vw"
           className="h-[20rem] w-full md:w-[19rem] rounded-t-lg rounded-b-none md:rounded-lg"
+          priority
         />
 
-        <h2 className="text-xl lg:text-2xl text-center font-bold font-raleway">
+        <h2 className="text-xl lg:text-2xl text-center font-bold font-raleway max-w-72 lg:max-w-[24rem] xl:max-w-[30rem]">
           {show.title}
         </h2>
 
@@ -88,14 +118,13 @@ export default function ShowPage({ params }: Props) {
       <ScrollArea className="w-full h-full max-h-[37rem] lg:max-h-[40rem]">
         <div className="p-4">
           {show.seasons.map((season) => (
-            <>
+            <div key={season.season}>
               <SeasonTile
-                key={season.season}
                 season={season}
                 onSeasonClick={() => handleOnSeasonClick(season.season)}
               />
               <Separator className="my-2" />
-            </>
+            </div>
           ))}
         </div>
       </ScrollArea>
