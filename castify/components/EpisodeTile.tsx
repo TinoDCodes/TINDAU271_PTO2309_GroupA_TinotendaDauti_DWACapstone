@@ -4,9 +4,10 @@ import { PlayIcon } from "lucide-react";
 
 interface Props {
   episode: TPodcastEpisode;
+  onPlayClick: () => void;
 }
 
-export const EpisodeTile = ({ episode }: Props) => {
+export const EpisodeTile = ({ episode, onPlayClick }: Props) => {
   return (
     <div className="w-full flex items-center bg-zinc-50 rounded-lg shadow-md px-4 py-4">
       <strong className="text-baes lg:text-lg text-[#ff8066]">
@@ -23,7 +24,12 @@ export const EpisodeTile = ({ episode }: Props) => {
       </article>
 
       <section className="ml-auto">
-        <Button size="lg" variant="ghost" className="p-0 hover:bg-transparent">
+        <Button
+          size="lg"
+          variant="ghost"
+          className="p-0 hover:bg-transparent"
+          onClick={onPlayClick}
+        >
           <PlayIcon
             strokeWidth={2}
             className="h-5 w-5 lg:h-6 lg:w-6 text-zinc-400 hover:text-green-500 hover:fill-green-500 transition"

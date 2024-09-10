@@ -3,7 +3,8 @@
 import { EpisodeTile } from "@/components/EpisodeTile";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { TPodcastSeason } from "@/utils/types";
+import { PlayerState, usePlayerStore } from "@/store/podcastPlayer";
+import { TPodcastEpisode, TPodcastSeason } from "@/utils/types";
 import { ArrowLeftIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -17,6 +18,10 @@ interface Props {
 }
 
 export default function SeasonPage({ params }: Props) {
+  const setCurrentlyPlaying = usePlayerStore(
+    (state: PlayerState) => state.setCurrentlyPlaying
+  );
+
   const [season, setSeason] = useState<TPodcastSeason | "loading" | "error">(
     "loading"
   );
@@ -42,6 +47,10 @@ export default function SeasonPage({ params }: Props) {
 
     getSeason();
   }, [params.seasonId, params.showId]);
+
+  const handleEpisodePlayClick = (episode: TPodcastEpisode) => {
+    setCurrentlyPlaying(episode);
+  };
 
   /* ---------- LOADING STATE DISPLAY ---------- */
   if (season === "loading") {
@@ -123,7 +132,11 @@ export default function SeasonPage({ params }: Props) {
         </Badge>
 
         {season.episodes.map((episode) => (
-          <EpisodeTile key={episode.episode} episode={episode} />
+          <EpisodeTile
+            key={episode.episode}
+            episode={episode}
+            onPlayClick={() => handleEpisodePlayClick(episode)}
+          />
         ))}
       </section>
     </div>

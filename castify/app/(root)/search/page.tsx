@@ -45,6 +45,7 @@ export default function SearchPage({ searchParams }: Props) {
    */
   useEffect(() => {
     const getShows = async () => {
+      setShowsFound("loading");
       const shows = await fetch("https://podcast-api.netlify.app/shows", {
         cache: "no-store",
       })

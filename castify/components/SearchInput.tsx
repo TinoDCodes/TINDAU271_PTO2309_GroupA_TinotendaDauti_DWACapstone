@@ -18,7 +18,7 @@ export const SearchInput = () => {
   const handleSearch = (e: FormEvent) => {
     e.preventDefault();
     router.push(`/search?title=${searchInputValue}`);
-    setTimeout(() => setSearchInputValue(""), 800);
+    // setTimeout(() => setSearchInputValue(""), 1000);
   };
 
   return (

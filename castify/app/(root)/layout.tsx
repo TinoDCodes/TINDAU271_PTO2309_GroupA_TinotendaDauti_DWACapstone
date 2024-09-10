@@ -1,3 +1,4 @@
+import { AudioPlayer } from "@/components/AudioPlayer";
 import { Header } from "@/components/Header";
 import { SearchInput } from "@/components/SearchInput";
 
@@ -17,6 +18,7 @@ export default async function MainAppLayout({
       <Header userData={data} />
       <SearchInput />
       {children}
+      <AudioPlayer />
     </main>
   );
 }
