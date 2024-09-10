@@ -1,15 +1,25 @@
 import { TPodcastEpisode } from "@/utils/types";
 import { Button } from "./ui/button";
-import { PlayIcon } from "lucide-react";
+import { PlayIcon, Volume2 } from "lucide-react";
+import { PlayerState, usePlayerStore } from "@/store/podcastPlayer";
 
 interface Props {
+  identifier: string;
   episode: TPodcastEpisode;
   onPlayClick: () => void;
 }
 
-export const EpisodeTile = ({ episode, onPlayClick }: Props) => {
+export const EpisodeTile = ({ episode, identifier, onPlayClick }: Props) => {
+  const { currentlyPlaying } = usePlayerStore((state: PlayerState) => state);
+
   return (
-    <div className="w-full flex items-center bg-zinc-50 rounded-lg shadow-md px-4 py-4">
+    <div
+      className={`${
+        identifier === currentlyPlaying?.identifier
+          ? "bg-zinc-200 opacity-70"
+          : "bg-zinc-50"
+      } w-full flex items-center rounded-lg shadow-md px-4 py-4`}
+    >
       <strong className="text-baes lg:text-lg text-[#ff8066]">
         {episode.episode}
       </strong>
@@ -24,17 +34,22 @@ export const EpisodeTile = ({ episode, onPlayClick }: Props) => {
       </article>
 
       <section className="ml-auto">
-        <Button
-          size="lg"
-          variant="ghost"
-          className="p-0 hover:bg-transparent"
-          onClick={onPlayClick}
-        >
-          <PlayIcon
-            strokeWidth={2}
-            className="h-5 w-5 lg:h-6 lg:w-6 text-zinc-400 hover:text-green-500 hover:fill-green-500 transition"
-          />
-        </Button>
+        {/* ---- PLAY BUTTON ---- */}
+        {identifier === currentlyPlaying?.identifier ? (
+          <Volume2 className="text-[#ff6f91] h-5 w-5 lg:h-6 lg:w-6" />
+        ) : (
+          <Button
+            size="lg"
+            variant="ghost"
+            className="p-0 hover:bg-transparent"
+            onClick={onPlayClick}
+          >
+            <PlayIcon
+              strokeWidth={2}
+              className="h-5 w-5 lg:h-6 lg:w-6 text-zinc-400 hover:text-green-500 hover:fill-green-500 transition"
+            />
+          </Button>
+        )}
       </section>
     </div>
   );

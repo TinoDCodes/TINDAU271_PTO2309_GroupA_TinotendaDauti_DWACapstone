@@ -13,13 +13,16 @@ import {
 import { PlayerState, usePlayerStore } from "@/store/podcastPlayer";
 
 export const AudioPlayer = () => {
-  const currentlyPlaying = usePlayerStore(
-    (state: PlayerState) => state.currentlyPlaying
-  );
+  const {
+    currentlyPlaying,
+    closePlayer,
+    currentAudioTime: currentTime,
+    isAudioPlaying: isPlaying,
+    setCurrentAudioTime: setCurrentTime,
+    setIsAudioPlaying: setIsPlaying,
+  } = usePlayerStore((state: PlayerState) => state);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
-  const [currentTime, setCurrentTime] = useState<number>(0);
   const [duration, setDuration] = useState<number>(0);
   const [isMuted, setIsMuted] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -31,10 +34,9 @@ export const AudioPlayer = () => {
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.load(); // This forces the audio element to load the new source
-      setCurrentTime(0);
-      setIsPlaying(true);
+      audioRef.current.currentTime = currentTime;
     }
-  }, [currentlyPlaying]); // Trigger this effect whenever currentlyPlaying changes
+  }, [currentlyPlaying]);
 
   // Format time (e.g., 120 seconds => "2:00")
   const formatTime = (timeInSeconds: number): string => {
@@ -65,7 +67,7 @@ export const AudioPlayer = () => {
       } else {
         audioRef.current.play();
       }
-      setIsPlaying((prev) => !prev);
+      setIsPlaying();
     }
   };
 
@@ -89,10 +91,7 @@ export const AudioPlayer = () => {
     }
   };
 
-  const handleClosePlayer = () => {
-    console.log("Please close player");
-  };
-
+  // Ensure that the audio player is not visible when there is nothing playing
   if (!currentlyPlaying) {
     return null;
   }
@@ -113,10 +112,12 @@ export const AudioPlayer = () => {
           autoPlay
         />
 
+        {/* ---- PLAYING EPISODE'S TITLE ---- */}
         <h3 className="text-zinc-50 text-center tex-sm lg:text-base max-w-[16rem] md:maw-w-[25rem] truncate">
           {currentlyPlaying.title}
         </h3>
 
+        {/* ---- AUDIO PROGRESS BAR & TIME STAMPS ---- */}
         <div className="flex items-center gap-3">
           <small className="text-zinc-50">{formatTime(currentTime)}</small>
 
@@ -133,12 +134,12 @@ export const AudioPlayer = () => {
         </div>
 
         <div className="flex items-center gap-6">
-          {/* ---- VOLUME BUTTON */}
+          {/* ---- VOLUME BUTTON ---- */}
           <button onClick={toggleMute} className="rounded-full">
             <VolumeIcon className="h-4 w-4 lg:h-5 lg:w-5 fill-zinc-200 text-zinc-200 hover:fill-white hover:text-white transition" />
           </button>
 
-          {/* ---- PLAY / PAUSE BUTTON */}
+          {/* ---- PLAY / PAUSE BUTTON ---- */}
           {loading ? (
             <Loader2
               strokeWidth={3}
@@ -150,8 +151,8 @@ export const AudioPlayer = () => {
             </button>
           )}
 
-          {/* ---- STOP BUTTON */}
-          <button onClick={handleClosePlayer} className="rounded-full">
+          {/* ---- STOP BUTTON ---- */}
+          <button onClick={closePlayer} className="rounded-full">
             <Square className="h-3 w-3 lg:h-4 lg:w-4 fill-zinc-200 text-zinc-200 hover:fill-red-600 hover:text-red-600 transition" />
           </button>
         </div>

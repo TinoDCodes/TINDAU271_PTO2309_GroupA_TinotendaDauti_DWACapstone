@@ -4,6 +4,7 @@ import { EpisodeTile } from "@/components/EpisodeTile";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PlayerState, usePlayerStore } from "@/store/podcastPlayer";
+import { createEpisodeIdentifier } from "@/utils/constants";
 import { TPodcastEpisode, TPodcastSeason } from "@/utils/types";
 import { ArrowLeftIcon } from "lucide-react";
 import Image from "next/image";
@@ -18,14 +19,21 @@ interface Props {
 }
 
 export default function SeasonPage({ params }: Props) {
-  const setCurrentlyPlaying = usePlayerStore(
-    (state: PlayerState) => state.setCurrentlyPlaying
-  );
+  const { setCurrentlyPlaying } = usePlayerStore((state: PlayerState) => state);
 
   const [season, setSeason] = useState<TPodcastSeason | "loading" | "error">(
     "loading"
   );
 
+  /**
+   * Fetches a specific podcast season based on the showId and seasonId URL parameters.
+   *
+   * - The function first makes a fetch request to a public API with the show ID.
+   * - If successful, it looks for the season matching the `seasonId` in the URL params.
+   * - If the fetch or data processing fails, the season is set to "error".
+   *
+   * The effect is re-triggered when `seasonId` or `showId` in the `params` object changes.
+   */
   useEffect(() => {
     const getSeason = async () => {
       const response = await fetch(
@@ -48,8 +56,24 @@ export default function SeasonPage({ params }: Props) {
     getSeason();
   }, [params.seasonId, params.showId]);
 
+  /**
+   * Handles the click event to play a selected podcast episode.
+   *
+   * @description
+   * - Extracts the `showId` and `seasonId` from the URL parameters.
+   * - Uses `createEpisodeIdentifier` to generate a unique identifier for the episode.
+   * - Updates the currently playing episode in the global state with the episode data and identifier.
+   *
+   * @param {TPodcastEpisode} episode - The podcast episode object to be played.
+   */
   const handleEpisodePlayClick = (episode: TPodcastEpisode) => {
-    setCurrentlyPlaying(episode);
+    const { showId, seasonId } = params;
+    const episodeIdentifier = createEpisodeIdentifier(
+      showId,
+      seasonId,
+      episode.episode
+    );
+    setCurrentlyPlaying({ ...episode, identifier: episodeIdentifier });
   };
 
   /* ---------- LOADING STATE DISPLAY ---------- */
@@ -134,6 +158,11 @@ export default function SeasonPage({ params }: Props) {
         {season.episodes.map((episode) => (
           <EpisodeTile
             key={episode.episode}
+            identifier={createEpisodeIdentifier(
+              params.showId,
+              params.seasonId,
+              episode.episode
+            )}
             episode={episode}
             onPlayClick={() => handleEpisodePlayClick(episode)}
           />

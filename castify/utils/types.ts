@@ -50,3 +50,5 @@ export type TSortOption = {
   value: TSortOptionValue;
   title: string;
 };
+
+export type TAudioPlayerEpisode = TPodcastEpisode & { identifier: string };
