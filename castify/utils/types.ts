@@ -52,3 +52,10 @@ export type TSortOption = {
 };
 
 export type TAudioPlayerEpisode = TPodcastEpisode & { identifier: string };
+
+export type TEpisodePlayHistory = {
+  identifier: string;
+  wasPlayedFully: boolean;
+  progress?: number;
+  episodeLength?: number;
+};

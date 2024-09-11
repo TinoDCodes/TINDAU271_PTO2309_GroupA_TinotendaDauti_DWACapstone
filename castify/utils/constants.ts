@@ -34,3 +34,23 @@ export const createEpisodeIdentifier = (
 ) => {
   return `show-${showId}-S${seasonId}-E${episodeId}`;
 };
+
+/**
+ * Formats time in seconds to "h:mm:ss" or "m:ss" depending on the length.
+ *
+ * @param {number} timeInSeconds - The time in seconds to format.
+ * @returns {string} The formatted time as "h:mm:ss" or "m:ss".
+ */
+export const formatTimeStamp = (timeInSeconds: number): string => {
+  const hours = Math.floor(timeInSeconds / 3600);
+  const minutes = Math.floor((timeInSeconds % 3600) / 60);
+  const seconds = Math.floor(timeInSeconds % 60);
+
+  if (hours > 0) {
+    return `${hours}:${minutes < 10 ? "0" : ""}${minutes}:${
+      seconds < 10 ? "0" : ""
+    }${seconds}`;
+  } else {
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  }
+};

@@ -11,15 +11,20 @@ import {
   VolumeXIcon,
 } from "lucide-react";
 import { PlayerState, usePlayerStore } from "@/store/podcastPlayer";
+import { formatTimeStamp } from "@/utils/constants";
 
 export const AudioPlayer = () => {
   const {
+    playerHistory,
     currentlyPlaying,
     closePlayer,
     currentAudioTime: currentTime,
     isAudioPlaying: isPlaying,
     setCurrentAudioTime: setCurrentTime,
     setIsAudioPlaying: setIsPlaying,
+    setEpisodeLength,
+    setEpisodePlayedFully,
+    updatePlayHistoryProgress,
   } = usePlayerStore((state: PlayerState) => state);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -27,39 +32,71 @@ export const AudioPlayer = () => {
   const [isMuted, setIsMuted] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
+  /**
+   * The play history of the currently playing episode from playerHistory.
+   *
+   * @const {TEpisodePlayHistory | undefined} episodePlayHistory
+   */
+  const episodePlayHistory = playerHistory.find(
+    (item) => item.identifier === currentlyPlaying?.identifier
+  );
+
   const PlayPauseIcon = isPlaying ? PauseIcon : PlayIcon;
   const VolumeIcon = isMuted ? VolumeXIcon : Volume2Icon;
 
+  /**
+   * useEffect hook that handles loading and resetting the audio source
+   * when a new episode is played.
+   *
+   * - Pauses and loads the new audio source.
+   * - Sets the currentTime to the previously saved time if available.
+   * - Resets the muted state if the volume is greater than 0.
+   */
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.load(); // This forces the audio element to load the new source
       audioRef.current.currentTime = currentTime;
+      if (audioRef.current.volume > 0) setIsMuted(false);
     }
   }, [currentlyPlaying]);
 
-  // Format time (e.g., 120 seconds => "2:00")
-  const formatTime = (timeInSeconds: number): string => {
-    const minutes = Math.floor(timeInSeconds / 60);
-    const seconds = Math.floor(timeInSeconds % 60);
-    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-  };
-
-  // Update progress bar and current time
+  /**
+   * Handles time update event of the audio element.
+   *
+   * - Updates the current time in the global state.
+   * - Updates the progress in the play history.
+   */
   const handleTimeUpdate = () => {
     if (audioRef.current) {
       setCurrentTime(audioRef.current.currentTime);
+
+      if (episodePlayHistory && !episodePlayHistory.wasPlayedFully) {
+        updatePlayHistoryProgress(
+          currentlyPlaying!.identifier,
+          audioRef.current.currentTime
+        );
+      }
     }
   };
 
-  // When metadata is loaded, set the duration
+  /**
+   * Handles the loaded metadata event of the audio element.
+   *
+   * - Sets the duration of the audio when metadata is loaded.
+   */
   const handleLoadedMetadata = () => {
     if (audioRef.current) {
       setDuration(audioRef.current.duration);
     }
   };
 
-  // Play or pause audio
+  /**
+   * Toggles the play and pause state of the audio.
+   *
+   * - Plays or pauses the audio depending on the current state.
+   * - Updates the playing state in the global store.
+   */
   const togglePlay = () => {
     if (audioRef.current) {
       if (isPlaying) {
@@ -71,7 +108,12 @@ export const AudioPlayer = () => {
     }
   };
 
-  // Mute or Umute the audio
+  /**
+   * Toggles the mute state of the audio.
+   *
+   * - Mutes or unmutes the audio.
+   * - Updates the muted state.
+   */
   const toggleMute = () => {
     if (audioRef.current) {
       if (isMuted) {
@@ -83,8 +125,35 @@ export const AudioPlayer = () => {
     setIsMuted((prev) => !prev);
   };
 
+  /**
+   * Handles the event when all audio data has loaded.
+   *
+   * - Sets the loading state to false.
+   * - Sets the episode length in the store if not already set.
+   */
+  const handleOnAudioDataLoaded = () => {
+    setLoading(false);
+    if (
+      audioRef.current &&
+      currentlyPlaying &&
+      !episodePlayHistory?.episodeLength
+    )
+      setEpisodeLength(currentlyPlaying.identifier, audioRef.current.duration);
+  };
+
+  /**
+   * Resets the player state when the audio is done playing.
+   *
+   * - Marks the episode as fully played if it wasn't.
+   * - Resets the current time and playing state.
+   * - Sets the audio element's currentTime to 0.
+   */
   const handleResetPlayer = () => {
     if (audioRef.current) {
+      if (episodePlayHistory && !episodePlayHistory.wasPlayedFully) {
+        setEpisodePlayedFully(episodePlayHistory.identifier);
+      }
+
       setCurrentTime(0);
       setIsPlaying(false);
       audioRef.current.currentTime = 0;
@@ -104,22 +173,22 @@ export const AudioPlayer = () => {
           src={currentlyPlaying?.file}
           key={currentlyPlaying?.file} // Add this line to force a re-render
           onLoadStart={() => setLoading(true)}
-          onLoadedData={() => setLoading(false)}
+          onLoadedData={handleOnAudioDataLoaded}
           onTimeUpdate={handleTimeUpdate}
           onLoadedMetadata={handleLoadedMetadata}
           onEnded={handleResetPlayer}
-          preload="metadata"
+          preload="auto"
           autoPlay
         />
 
-        {/* ---- PLAYING EPISODE'S TITLE ---- */}
+        {/* ---- EPISODE TITLE ---- */}
         <h3 className="text-zinc-50 text-center tex-sm lg:text-base max-w-[16rem] md:maw-w-[25rem] truncate">
           {currentlyPlaying.title}
         </h3>
 
         {/* ---- AUDIO PROGRESS BAR & TIME STAMPS ---- */}
         <div className="flex items-center gap-3">
-          <small className="text-zinc-50">{formatTime(currentTime)}</small>
+          <small className="text-zinc-50">{formatTimeStamp(currentTime)}</small>
 
           <Slider
             value={[currentTime]}
@@ -130,7 +199,7 @@ export const AudioPlayer = () => {
             }}
           />
 
-          <small className="text-zinc-50">{formatTime(duration)}</small>
+          <small className="text-zinc-50">{formatTimeStamp(duration)}</small>
         </div>
 
         <div className="flex items-center gap-6">
