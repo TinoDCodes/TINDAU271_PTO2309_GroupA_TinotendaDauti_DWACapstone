@@ -30,7 +30,7 @@ function Submit() {
       disabled={pending}
       className={`${
         pending && "animate-pulse"
-      } bg-[#d65db1] hover:bg-[#d65db2b8] lg:text-lg lg:mt-2`}
+      } bg-[#d65db1] hover:bg-[#d65db2b8] dark:bg-[#b39cd0] dark:hover:opacity-85 lg:text-lg lg:mt-2`}
     >
       {pending ? "processing..." : "Sign Up"}
     </Button>
@@ -46,8 +46,8 @@ export default function SignUpPage({ searchParams }: Props) {
   }, [searchParams]);
 
   return (
-    <div className="bg-violet-50 w-full h-[100vh] flex items-center justify-center">
-      <Card className="w-[20rem] py-4 lg:w-[26rem] lg:px-8">
+    <div className="bg-violet-50 dark:bg-black w-full h-[100vh] flex items-center justify-center">
+      <Card className="w-[20rem] py-4 lg:w-[26rem] lg:px-8 dark:bg-zinc-900">
         <CardHeader className="flex flex-col items-center text-center lg:mb-2">
           <CardTitle className="font-bold text-lg lg:text-2xl font-raleway">
             Welcome!
@@ -74,7 +74,7 @@ export default function SignUpPage({ searchParams }: Props) {
                 id="email"
                 name="email"
                 placeholder="johndoe@example.com"
-                className="placeholder:text-zinc-300 lg:text-lg"
+                className="placeholder:text-zinc-300 dark:placeholder:text-zinc-500 lg:text-lg"
                 required
               />
             </div>
@@ -88,7 +88,7 @@ export default function SignUpPage({ searchParams }: Props) {
                 id="password"
                 name="password"
                 placeholder="************"
-                className="placeholder:text-zinc-300 lg:text-lg"
+                className="placeholder:text-zinc-300 dark:placeholder:text-zinc-500 lg:text-lg"
                 required
               />
             </div>
@@ -102,7 +102,7 @@ export default function SignUpPage({ searchParams }: Props) {
                 id="password2"
                 name="password2"
                 placeholder="************"
-                className="placeholder:text-zinc-300 lg:text-lg"
+                className="placeholder:text-zinc-300 dark:placeholder:text-zinc-500 lg:text-lg"
                 required
               />
             </div>

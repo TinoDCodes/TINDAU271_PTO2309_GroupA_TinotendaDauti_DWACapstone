@@ -28,7 +28,7 @@ export const Preview = ({ previewShow }: Props) => {
   return (
     <button
       onClick={() => router.push(`/show/${previewShow.id}`)}
-      className="flex flex-col lg:gap-1 w-[7rem] md:w-[9rem] lg:w-[13rem] h-[14.5rem] md:h-[16rem] lg:h-[21rem] items-center justify-evenly rounded-lg shadow-md p-2 lg:p-3 hover:scale-95 transition"
+      className="flex flex-col lg:gap-1 w-[7rem] md:w-[9rem] lg:w-[13rem] h-[14.5rem] md:h-[16rem] lg:h-[21rem] items-center justify-evenly rounded-lg shadow-md dark:shadow-zinc-50/10 p-2 lg:p-3 hover:scale-95 transition"
     >
       <Image
         src={previewShow.image}
@@ -55,7 +55,7 @@ export const Preview = ({ previewShow }: Props) => {
             <Link
               href={`/explore?genre=${genre?.title}`}
               onClick={(e) => e.stopPropagation()}
-              className="text-[#4b4453] hover:text-blue-500 transition"
+              className="text-[#4b4453] dark:text-[#845ec2] hover:text-blue-500 dark:hover:text-blue-400 transition"
             >
               {genre?.title}
             </Link>
@@ -63,7 +63,7 @@ export const Preview = ({ previewShow }: Props) => {
           </p>
         ))}
       </div>
-      <p className="text-[0.6rem] lg:text-xs text-zinc-500 text-center">
+      <p className="text-[0.6rem] lg:text-xs text-zinc-500 dark:text-zinc-400 text-center">
         Updated: {updatedDate}
       </p>
     </button>

@@ -16,6 +16,7 @@ import { User } from "@supabase/supabase-js";
 import { Button } from "./ui/button";
 import { createClient } from "@/utils/supabase/client";
 import { Separator } from "./ui/separator";
+import { useTheme } from "next-themes";
 
 interface Props {
   userData: {
@@ -25,6 +26,7 @@ interface Props {
 
 export const Header = ({ userData }: Props) => {
   const pathname = usePathname();
+  const { theme } = useTheme();
 
   /**
    *  Handles user sign out using supabase (client side) client.
@@ -39,11 +41,15 @@ export const Header = ({ userData }: Props) => {
   };
 
   return (
-    <header className="wrapper flex items-center justify-between shadow-lg">
+    <header className="wrapper flex items-center justify-between shadow-lg dark:shadow-zinc-50/5">
       {/* ---------- APP LOGO ---------- */}
       <Link href="/">
         <Image
-          src="/assets/castify-logo-light.png"
+          src={
+            theme === "light"
+              ? "/assets/castify-logo-light.png"
+              : "/assets/castify-logo-dark.png"
+          }
           alt="Castify logo"
           height="0"
           width="0"
@@ -56,7 +62,9 @@ export const Header = ({ userData }: Props) => {
       <Link
         href="/explore"
         className={`${
-          pathname === "/explore" ? "text-[#845ec2]" : "text-zinc-500"
+          pathname === "/explore"
+            ? "text-[#845ec2]"
+            : "text-zinc-500 dark:text-zinc-200/90"
         } text-sm md:text-base lg:text-lg font-semibold hover:underline underline-offset-8 transition`}
       >
         Explore <span className="hidden lg:inline">shows</span>
@@ -107,7 +115,7 @@ export const Header = ({ userData }: Props) => {
           </PopoverTrigger>
           <PopoverContent align="end" className="w-fit min-w-36 lg:min-w-48">
             {userData.user && (
-              <div className="flex items-center px-2 lg:px-4 gap-2 mb-5 opacity-65 text-[#4b4453] text-xs md:text-sm lg:text-base">
+              <div className="flex items-center px-2 lg:px-4 gap-2 mb-5 opacity-65 text-[#4b4453] dark:text-white text-xs md:text-sm lg:text-base">
                 <User2Icon className="h-3 w-3 md:h-4 md:w-4 lg:h-5 lg:w-5" />
                 <span className="max-w-36 overflow-clip text-ellipsis ">
                   {userData.user.email}

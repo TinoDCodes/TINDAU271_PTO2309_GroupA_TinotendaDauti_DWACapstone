@@ -53,7 +53,7 @@ export const SortShows = () => {
 
   return (
     <div className="ml-auto flex items-center gap-2">
-      <small className="text-sm lg:text-base text-zinc-500 font-medium">
+      <small className="text-sm lg:text-base text-zinc-500 dark:text-zinc-300 font-medium">
         sort:
       </small>
       <select

@@ -4,7 +4,7 @@ import { EpisodeTile } from "@/components/EpisodeTile";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PlayerState, usePlayerStore } from "@/store/podcastPlayer";
-import { createEpisodeIdentifier } from "@/utils/constants";
+import { createEpisodeIdentifier } from "@/utils/helpers";
 import { TPodcastEpisode, TPodcastSeason } from "@/utils/types";
 import { ArrowLeftIcon } from "lucide-react";
 import Image from "next/image";
@@ -99,10 +99,10 @@ export default function SeasonPage({ params }: Props) {
             height="0"
             width="0"
             sizes="100vw"
-            className="h-20 w-20 lg:h-28 lg:w-28 opacity-25"
+            className="h-20 w-20 lg:h-28 lg:w-28 opacity-25 dark:invert dark:opacity-75"
           />
 
-          <strong className="text-sm lg:text-base text-center text-zinc-400">
+          <strong className="text-sm lg:text-base text-center text-zinc-400 dark:text-zinc-200">
             Sorry, we couldn&apos;t load the data for this season. Please try
             again or contact support if the problem persists.
           </strong>
@@ -113,15 +113,15 @@ export default function SeasonPage({ params }: Props) {
 
   return (
     <div className="wrapper">
-      <section className="w-full flex flex-col md:flex-row gap-3 md:gap-0 items-center justify-between md:bg-violet-50 md:px-2 md:py-4 rounded-md">
+      <section className="w-full flex flex-col md:flex-row gap-3 md:gap-0 items-center justify-between md:bg-violet-50 dark:md:bg-zinc-800 md:px-2 md:py-4 rounded-md">
         <Link
           href={`/show/${params.showId}`}
-          className="text-sm mr-auto md:mr-0 lg:text-base flex items-center gap-2 lg:gap-3 text-zinc-500 hover:scale-95 transition"
+          className="text-sm mr-auto md:mr-0 lg:text-base flex items-center gap-2 lg:gap-3 text-zinc-500 dark:text-zinc-200 hover:scale-95 transition"
         >
           <ArrowLeftIcon className="h-4 w-4" /> Back
         </Link>
 
-        <article className="min-w-full md:min-w-0 flex items-center gap-4 bg-violet-50 md:bg-none py-2 rounded-md px-5 md:p-0">
+        <article className="min-w-full md:min-w-0 flex items-center gap-4 bg-violet-50 dark:bg-zinc-800 md:bg-none py-2 rounded-md px-5 md:p-0">
           <Image
             src={season.image}
             alt="cover image"
@@ -130,7 +130,7 @@ export default function SeasonPage({ params }: Props) {
             sizes="100vw"
             className="md:hidden h-[6rem] w-[5rem] rounded"
           />
-          <div className="flex flex-col gap-1 items-center justify-center text-center text-[#845ec2]">
+          <div className="flex flex-col gap-1 items-center justify-center text-center text-[#845ec2] dark:text-white">
             <h5 className="text-xs lg:text-sm font-medium">
               Season {season.season}
             </h5>

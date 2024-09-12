@@ -21,6 +21,7 @@ export default function Home() {
     getPreviews();
   }, []);
 
+  /* ---------- ERROR STATE DISPLAY ---------- */
   if (shows === "error") {
     return (
       <div className="wrapper w-full h-full">
@@ -31,10 +32,10 @@ export default function Home() {
             height="0"
             width="0"
             sizes="100vw"
-            className="h-20 w-20 lg:h-28 lg:w-28 opacity-25"
+            className="h-20 w-20 lg:h-28 lg:w-28 opacity-25 dark:invert dark:opacity-75"
           />
 
-          <strong className="text-sm lg:text-base text-center text-zinc-400">
+          <strong className="text-sm lg:text-base text-center text-zinc-400 dark:text-zinc-200">
             Sorry, we couldn&apos;t load the podcasts. Please try again or
             contact support if the problem persists.
           </strong>

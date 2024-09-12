@@ -3,7 +3,7 @@ import { Button } from "./ui/button";
 import { PlayIcon, Volume2 } from "lucide-react";
 import { PlayerState, usePlayerStore } from "@/store/podcastPlayer";
 import { Slider } from "./ui/slider";
-import { formatTimeStamp } from "@/utils/constants";
+import { formatTimeStamp } from "@/utils/helpers";
 
 interface Props {
   identifier: string;
@@ -24,8 +24,8 @@ export const EpisodeTile = ({ episode, identifier, onPlayClick }: Props) => {
     <div
       className={`${
         identifier === currentlyPlaying?.identifier
-          ? "bg-zinc-200 opacity-70"
-          : "bg-zinc-50"
+          ? "bg-zinc-200 dark:bg-zinc-800 opacity-70"
+          : "bg-zinc-50 dark:bg-zinc-900/80"
       } w-full flex items-center rounded-lg shadow-md px-4 py-4`}
     >
       {/* ---- EPISODE NUMBER ---- */}
@@ -38,7 +38,7 @@ export const EpisodeTile = ({ episode, identifier, onPlayClick }: Props) => {
         <h4 className="font-bold text-sm lg:text-base max-w-[60vw] line-clamp-2">
           {episode.title}
         </h4>
-        <p className="text-xs lg:text-sm text-zinc-500 max-w-[55vw] md:max-w-[70vw] line-clamp-3 md:line-clamp-4 lg:line-clamp-none">
+        <p className="text-xs lg:text-sm text-zinc-500 dark:text-zinc-300 max-w-[55vw] md:max-w-[70vw] line-clamp-3 md:line-clamp-4 lg:line-clamp-none">
           {episode.description}
         </p>
 

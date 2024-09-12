@@ -73,10 +73,10 @@ export default function ShowPage({ params }: Props) {
             height="0"
             width="0"
             sizes="100vw"
-            className="h-20 w-20 lg:h-28 lg:w-28 opacity-25"
+            className="h-20 w-20 lg:h-28 lg:w-28 opacity-25 dark:invert dark:opacity-75"
           />
 
-          <strong className="text-sm lg:text-base text-center text-zinc-400">
+          <strong className="text-sm lg:text-base text-center text-zinc-400 dark:text-zinc-200">
             Sorry, we couldn&apos;t load the data for this show. Please try
             again or contact support if the problem persists.
           </strong>
@@ -88,7 +88,7 @@ export default function ShowPage({ params }: Props) {
   return (
     <div className="wrapper grid grid-cols-1 md:grid-cols-2 gap-4">
       {/* ---- LHS or TOP section depending on display size ---- */}
-      <section className="w-full md:h-full flex flex-col gap-2 md:gap-4 items-center md:justify-center bg-muted pb-4 md:py-4 lg:py-8 rounded-t-lg md:rounded-r-none  md:rounded-l-lg">
+      <section className="w-full md:h-full flex flex-col gap-2 md:gap-4 items-center md:justify-center bg-muted/60 pb-4 md:py-4 lg:py-8 rounded-t-lg md:rounded-lg">
         <Image
           src={show.image}
           alt="Show Cover Image"
@@ -109,11 +109,13 @@ export default function ShowPage({ params }: Props) {
 
         {/* genres */}
         <small className="text-xs lg:text-sm text-[#845ec2] text-center max-w-72 lg:max-w-[24rem] xl:max-w-[30rem]">
-          <span className="font-semibold text-black">genres:&nbsp;&nbsp;</span>
+          <span className="font-semibold text-black dark:text-white/70">
+            genres:&nbsp;&nbsp;
+          </span>
           {show.genres && show.genres.join(", ")}
         </small>
 
-        <small className="text-xs lg:text-sm text-zinc-500">
+        <small className="text-xs lg:text-sm text-zinc-500 dark:text-white/65">
           updated: {format(new Date(show.updated), "PP")}
         </small>
 

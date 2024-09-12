@@ -73,12 +73,12 @@ export default function SearchPage({ searchParams }: Props) {
   /* ---------- ERROR STATE DISPLAY ---------- */
   if (showsFound === "not-found") {
     return (
-      <div className="wrapper w-full h-full">
+      <div className="wrapper">
         <article className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
-          <strong className="text-sm lg:text-base text-center text-zinc-400">
+          <strong className="text-sm lg:text-base text-center text-zinc-400 dark:text-white/90">
             No results found for &quot;{searchParams.title}&quot;.
           </strong>
-          <p className="text-sm lg:text-base text-center text-zinc-400 font-medium">
+          <p className="text-sm lg:text-base text-center text-zinc-400 dark:text-white/85 font-medium">
             Adjust your search keywords and try again!
           </p>
         </article>
@@ -88,7 +88,7 @@ export default function SearchPage({ searchParams }: Props) {
 
   return (
     <div className="wrapper">
-      <h5 className="text-zinc-400 font-extrabold lg:text-lg">
+      <h5 className="text-zinc-400 dark:text-zinc-200 font-extrabold lg:text-lg">
         search results for &quot;{searchParams.title}&quot;
       </h5>
 

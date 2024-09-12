@@ -5,7 +5,7 @@ import { ChevronRight } from "lucide-react";
 
 export const Hero = () => {
   return (
-    <article className="w-full flex items-center justify-between bg-violet-50 shadow-md rounded-lg pl-4 pr-0 md:px-8 lg:pr-5 xl:px-16">
+    <article className="w-full flex items-center justify-between bg-violet-50 dark:bg-zinc-800 shadow-md rounded-lg pl-4 pr-0 md:px-8 lg:pr-5 xl:px-16">
       <section className="flex flex-col py-3 md:py-0">
         <h1 className="text-xs md:text-xl lg:text-4xl xl:text-5xl font-bold raleway-font mb-2 lg:mb-4">
           Listen To Your Favourite Podcasts
@@ -17,7 +17,7 @@ export const Hero = () => {
 
         <Button
           asChild
-          className="h-6 md:h-fit lg:h-12 rounded-full mt-3 md:mt-5 lg:mt-10 w-fit px-2 md:px-4 lg:px-6 lg:py-6 text-[0.6rem] md:text-sm lg:text-lg font-semibold bg-[var(--button-primary)] hover:bg-[var(--button-primary-hover)] hover:scale-95 transition"
+          className="h-6 md:h-fit lg:h-12 rounded-full mt-3 md:mt-5 lg:mt-10 w-fit px-2 md:px-4 lg:px-6 lg:py-6 text-[0.6rem] md:text-sm lg:text-lg dark:text-white font-semibold bg-[var(--button-primary)] dark:bg-zinc-500 hover:bg-[var(--button-primary-hover)] dark:hover:bg-zinc-400 hover:scale-95 transition"
         >
           <Link href="/explore">
             Explore shows{" "}

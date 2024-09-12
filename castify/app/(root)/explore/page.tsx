@@ -140,10 +140,10 @@ export default function ExplorePage({ searchParams }: Props) {
             height="0"
             width="0"
             sizes="100vw"
-            className="h-20 w-20 lg:h-28 lg:w-28 opacity-25"
+            className="h-20 w-20 lg:h-28 lg:w-28 opacity-25 dark:invert dark:opacity-75"
           />
 
-          <strong className="text-sm lg:text-base text-center text-zinc-400">
+          <strong className="text-sm lg:text-base text-center text-zinc-400 dark:text-zinc-200">
             Sorry, something went wrong. Please try again or contact support if
             the problem persists.
           </strong>

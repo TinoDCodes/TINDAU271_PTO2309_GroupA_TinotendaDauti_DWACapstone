@@ -31,7 +31,9 @@ const Slider = React.forwardRef<
       <SliderPrimitive.Range
         className={cn(
           "absolute h-full",
-          variant === "blue-no-thumb" ? "bg-[#008cca]" : "bg-primary"
+          variant === "blue-no-thumb"
+            ? "bg-[#008cca]"
+            : "bg-primary dark:bg-zinc-900"
         )}
       />
     </SliderPrimitive.Track>
