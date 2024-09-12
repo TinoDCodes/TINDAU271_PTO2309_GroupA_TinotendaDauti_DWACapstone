@@ -14,6 +14,7 @@ export interface PlayerState {
   setEpisodePlayedFully: (identifier: string) => void;
   updatePlayHistoryProgress: (identifier: string, time: number) => void;
   closePlayer: () => void;
+  resetPlayerHistory: () => void;
 }
 
 export const usePlayerStore = create<PlayerState>()(
@@ -129,6 +130,10 @@ export const usePlayerStore = create<PlayerState>()(
           currentAudioTime: 0,
           isAudioPlaying: false,
         }),
+      /**
+       * clears the users listening history.
+       */
+      resetPlayerHistory: () => set({ playerHistory: [] }),
     }),
     {
       name: "player-storage",

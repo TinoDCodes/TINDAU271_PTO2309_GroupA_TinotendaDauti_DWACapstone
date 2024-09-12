@@ -107,7 +107,7 @@ export const Header = ({ userData }: Props) => {
           </PopoverTrigger>
           <PopoverContent align="end" className="w-fit min-w-36 lg:min-w-48">
             {userData.user && (
-              <div className="flex items-center gap-2 mb-2 opacity-65 text-[#2c73d2] text-xs md:text-sm lg:text-base">
+              <div className="flex items-center px-2 lg:px-4 gap-2 mb-5 opacity-65 text-[#4b4453] text-xs md:text-sm lg:text-base">
                 <User2Icon className="h-3 w-3 md:h-4 md:w-4 lg:h-5 lg:w-5" />
                 <span className="max-w-36 overflow-clip text-ellipsis ">
                   {userData.user.email}
