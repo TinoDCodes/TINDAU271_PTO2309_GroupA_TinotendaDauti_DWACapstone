@@ -35,6 +35,7 @@ export const Hero = () => {
         height="0"
         width="0"
         sizes="100vw"
+        priority
         className="h-[7.5rem] w-[9.375rem] md:h-[12.5rem] md:w-[18.75rem] lg:h-[18.75rem] lg:w-[28.125rem]"
       />
     </article>

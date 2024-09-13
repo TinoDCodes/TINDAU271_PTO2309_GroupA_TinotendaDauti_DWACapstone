@@ -17,8 +17,9 @@ export const SearchInput = () => {
    */
   const handleSearch = (e: FormEvent) => {
     e.preventDefault();
+    if (!searchInputValue.trim()) return;
+
     router.push(`/search?title=${searchInputValue}`);
-    // setTimeout(() => setSearchInputValue(""), 1000);
   };
 
   return (
@@ -34,11 +35,13 @@ export const SearchInput = () => {
         value={searchInputValue}
         className="text-sm md:text-base h-8 md:h-10 p-4 max-w-[40rem] rounded-l-full border-r-0"
         onChange={(e) => setSearchInputValue(e.target.value)}
+        required
       />
       <Button
         size="icon"
         variant="ghost"
         type="submit"
+        disabled={!searchInputValue.trim()}
         className="border h-[33px] md:h-10 border-l-0 rounded-l-none rounded-r-full w-fit"
       >
         <SearchIcon className="h-4 w-4 md:h-5 md:w-5 mx-4 text-[#0089ba]" />
