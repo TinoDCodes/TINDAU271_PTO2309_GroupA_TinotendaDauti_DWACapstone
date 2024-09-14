@@ -1,3 +1,5 @@
+import { DbUserFavourite } from "./types";
+
 /**
  * Creates a unique identifier for a podcast episode based on the show ID, season ID, and episode number.
  *
@@ -41,4 +43,24 @@ export const formatTimeStamp = (timeInSeconds: number): string => {
   } else {
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   }
+};
+
+/**
+ * Checks if a specific episode is marked as a favourite by the user.
+ *
+ * This function searches through the user's list of favourites and determines
+ * if the provided episode ID exists in the list.
+ *
+ * @function checkIsFavourite
+ * @param {number} episodeId - The ID of the episode to check.
+ * @param {DbUserFavourite[]} favourites - The array of favourite items belonging to the user.
+ * @returns {boolean} - Returns `true` if the episode is found in the favourites list, otherwise `false`.
+ */
+export const checkIsFavourite = (
+  episodeId: number,
+  favourites: DbUserFavourite[]
+) => {
+  return favourites.find((item) => item.episode_id === episodeId)
+    ? true
+    : false;
 };

@@ -4,12 +4,19 @@ import { EpisodeTile } from "@/components/EpisodeTile";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PlayerState, usePlayerStore } from "@/store/podcastPlayer";
-import { createEpisodeIdentifier } from "@/utils/helpers";
-import { TPodcastEpisode, TPodcastSeason } from "@/utils/types";
+import { checkIsFavourite, createEpisodeIdentifier } from "@/utils/helpers";
+import { createClient } from "@/utils/supabase/client";
+import {
+  DbInsertFavourite,
+  DbUserFavourite,
+  TPodcastEpisode,
+  TPodcastSeason,
+} from "@/utils/types";
 import { ArrowLeftIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { type User } from "@supabase/supabase-js";
 
 interface Props {
   params: {
@@ -19,11 +26,65 @@ interface Props {
 }
 
 export default function SeasonPage({ params }: Props) {
+  const supabase = createClient();
+
   const { setCurrentlyPlaying } = usePlayerStore((state: PlayerState) => state);
 
+  const [user, setUser] = useState<User>();
+  const [favourites, setFavourites] = useState<DbUserFavourite[]>([]);
   const [season, setSeason] = useState<TPodcastSeason | "loading" | "error">(
     "loading"
   );
+
+  /**
+   * Fetches the latest list of the user's favourites from the database and updates the state.
+   *
+   * This function queries the 'favourites' table in the database for the authenticated user,
+   * filtered by the current show and season. If successful, it updates the favourites state.
+   *
+   * @async
+   * @function refreshFavourites
+   * @param {User} currentUser - The current authenticated user object.
+   * @returns {Promise<void>} - Resolves after the favourites data has been fetched and state is updated.
+   */
+  const refreshFavourites = useCallback(
+    async (currentUser: User) => {
+      const { data: favouritesData, error } = await supabase
+        .from("favourites")
+        .select("*")
+        .eq("user_id", currentUser.id)
+        .eq("show_id", parseInt(params.showId))
+        .eq("season_id", parseInt(params.seasonId));
+
+      if (!error) {
+        setFavourites(favouritesData);
+      } else {
+        // TODO: implement toast for error notification
+        console.error("Error fetching updated favourites:", error.message);
+      }
+    },
+    [params.showId, params.seasonId, supabase]
+  );
+
+  /**
+   * Retrieves the current authenticated user and their favourites on component load.
+   *
+   * This useEffect runs when the component is first rendered. It fetches the authenticated user's
+   * details and retrieves their list of favourites by calling the `refreshFavourites` function.
+   */
+  useEffect(() => {
+    const getUserAndFavourites = async () => {
+      const { data: userData, error: userError } =
+        await supabase.auth.getUser();
+
+      if (!userError) {
+        setUser(userData.user);
+        await refreshFavourites(userData.user);
+      }
+    };
+
+    getUserAndFavourites();
+  }, [supabase, refreshFavourites]);
 
   /**
    * Fetches a specific podcast season based on the showId and seasonId URL parameters.
@@ -74,6 +135,75 @@ export default function SeasonPage({ params }: Props) {
       episode.episode
     );
     setCurrentlyPlaying({ ...episode, identifier: episodeIdentifier });
+  };
+
+  /**
+   * Adds an episode to the user's favourites list in the database.
+   *
+   * This function inserts a new favourite record for the authenticated user.
+   * After a successful insertion, the favourites list is refreshed to reflect
+   * the latest state in the UI.
+   *
+   * @async
+   * @function handleAddToFavourites
+   * @param {TPodcastEpisode} episode - The podcast episode object containing details like episode ID, title, description, and file URL.
+   * @returns {Promise<void>} - Resolves after the episode has been added to the user's favourites.
+   */
+  const handleAddToFavourites = async (episode: TPodcastEpisode) => {
+    if (!user) return; // Ensure the user is authenticated
+
+    const favouriteRowItem: DbInsertFavourite = {
+      user_id: user.id,
+      show_id: parseInt(params.showId),
+      season_id: parseInt(params.seasonId),
+      episode_id: episode.episode,
+      episode_title: episode.title,
+      episode_description: episode.description,
+      episode_file: episode.file,
+    };
+
+    const { data, error } = await supabase
+      .from("favourites")
+      .insert([favouriteRowItem]);
+
+    if (error) {
+      // TODO: add toast notifications for success and failure
+      console.error(error.message, { code: error.code });
+    } else {
+      console.log("Insertion was a success", data);
+      await refreshFavourites(user); // Fetch latest favourites after successful insertion
+    }
+  };
+
+  /**
+   * Removes an episode from the user's favourites list in the database.
+   *
+   * This function deletes the favourite record for a given episode
+   * from the authenticated user's favourites list. After a successful
+   * deletion, the favourites list is refreshed to reflect the latest state in the UI.
+   *
+   * @async
+   * @function handleRemoveFromFavourites
+   * @param {TPodcastEpisode} episode - The podcast episode object to be removed from favourites.
+   * @returns {Promise<void>} - Resolves after the episode has been removed from the user's favourites.
+   */
+  const handleRemoveFromFavourites = async (episode: TPodcastEpisode) => {
+    if (!user) return;
+
+    const { error } = await supabase
+      .from("favourites")
+      .delete()
+      .eq("show_id", parseInt(params.showId))
+      .eq("season_id", parseInt(params.seasonId))
+      .eq("episode_id", episode.episode);
+
+    // TODO: add toast notifications for success and failure
+    if (error) {
+      console.error(error.message, { code: error.code });
+    } else {
+      console.log("Successfully removed item from favourites");
+      await refreshFavourites(user); // Fetch latest favourites after successful deletion
+    }
   };
 
   /* ---------- LOADING STATE DISPLAY ---------- */
@@ -158,13 +288,17 @@ export default function SeasonPage({ params }: Props) {
         {season.episodes.map((episode) => (
           <EpisodeTile
             key={episode.episode}
+            user={user}
             identifier={createEpisodeIdentifier(
               params.showId,
               params.seasonId,
               episode.episode
             )}
             episode={episode}
+            isFavourite={checkIsFavourite(episode.episode, favourites)}
             onPlayClick={() => handleEpisodePlayClick(episode)}
+            onAddFavourites={() => handleAddToFavourites(episode)}
+            onRemoveFavourites={() => handleRemoveFromFavourites(episode)}
           />
         ))}
       </section>

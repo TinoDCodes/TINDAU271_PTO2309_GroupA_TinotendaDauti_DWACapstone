@@ -1,17 +1,30 @@
 import { TPodcastEpisode } from "@/utils/types";
 import { Button } from "./ui/button";
-import { PlayIcon, Volume2 } from "lucide-react";
+import { Heart, PlayIcon, Volume2 } from "lucide-react";
 import { PlayerState, usePlayerStore } from "@/store/podcastPlayer";
 import { Slider } from "./ui/slider";
 import { formatTimeStamp } from "@/utils/helpers";
+import { User } from "@supabase/supabase-js";
 
 interface Props {
+  user?: User;
   identifier: string;
   episode: TPodcastEpisode;
+  isFavourite: boolean;
   onPlayClick: () => void;
+  onAddFavourites: () => void;
+  onRemoveFavourites: () => void;
 }
 
-export const EpisodeTile = ({ episode, identifier, onPlayClick }: Props) => {
+export const EpisodeTile = ({
+  user,
+  episode,
+  identifier,
+  isFavourite,
+  onPlayClick,
+  onAddFavourites,
+  onRemoveFavourites,
+}: Props) => {
   const { currentlyPlaying, playerHistory } = usePlayerStore(
     (state: PlayerState) => state
   );
@@ -69,7 +82,22 @@ export const EpisodeTile = ({ episode, identifier, onPlayClick }: Props) => {
       </article>
 
       {/* ---- CONTROLS SECTION ---- */}
-      <section className="ml-auto">
+      <section className="ml-auto flex flex-col md:flex-row items-center gap-3">
+        {/* ---- FAVOURITES BUTTON ---- */}
+        {user && (
+          <>
+            {isFavourite ? (
+              <button onClick={onRemoveFavourites}>
+                <Heart className="h-5 w-5 lg:h-6 lg:w-6 text-red-500 fill-red-500 hover:opacity-85 transition" />
+              </button>
+            ) : (
+              <button onClick={onAddFavourites}>
+                <Heart className="h-5 w-5 lg:h-6 lg:w-6 text-zinc-400 hover:text-red-500 hover:fill-red-500 transition" />
+              </button>
+            )}
+          </>
+        )}
+
         {/* ---- PLAY BUTTON ---- */}
         {identifier === currentlyPlaying?.identifier ? (
           <Volume2 className="text-[#ff6f91] h-5 w-5 lg:h-6 lg:w-6" />

@@ -14,21 +14,29 @@ export const metadata: Metadata = {
   creator: "Tinotenda Dauti",
   applicationName: "Castify",
   // SEO relevant meta data
-  // TODO: make sure to add the correct urls once deployed to netlify
   openGraph: {
     type: "website",
     title: "Castify - Your Hub for Discovering & Streaming Podcasts",
     description:
       "Castify is a modern podcast app that lets you browse, stream, and track your favorite shows and episodes with ease.",
-    url: "",
-    images: [{ url: "" }],
+    url: "https://castify-streaming.netlify.app/",
+    images: [
+      {
+        url: "https://castify-streaming.netlify.app/assets/castify-logo-light.png",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Castify - Your Hub for Discovering & Streaming Podcasts",
     description:
       "Castify is a modern podcast app that lets you browse, stream, and track your favorite shows and episodes with ease.",
-    images: [{ url: "" }],
+    images: [
+      {
+        url: "https://castify-streaming.netlify.app/assets/castify-logo-light.png",
+      },
+    ],
+    site: "https://castify-streaming.netlify.app/",
   },
   keywords:
     "podcast, podcasts, Castify, streaming, audio, episodes, shows, entertainment, Castify app, podcast streaming",

@@ -59,3 +59,29 @@ export type TEpisodePlayHistory = {
   progress?: number;
   episodeLength?: number;
 };
+
+export type DbUserFavourite = {
+  created_at: string;
+  episode_description: string | null;
+  episode_file: string | null;
+  episode_id: number | null;
+  episode_title: string | null;
+  id: number;
+  season_id: number | null;
+  show_id: number | null;
+  user_id: string | null;
+  was_shared: boolean | null;
+};
+
+export type DbInsertFavourite = {
+  created_at?: string;
+  episode_description?: string | null;
+  episode_file?: string | null;
+  episode_id?: number | null;
+  episode_title?: string | null;
+  id?: number;
+  season_id?: number | null;
+  show_id?: number | null;
+  user_id?: string | null;
+  was_shared?: boolean | null;
+};
