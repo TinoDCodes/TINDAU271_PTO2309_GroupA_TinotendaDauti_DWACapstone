@@ -11,12 +11,13 @@ import {
   TooltipTrigger,
 } from "./ui/tooltip";
 import { UserSettings } from "./UserSettings";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { User } from "@supabase/supabase-js";
 import { Button } from "./ui/button";
 import { createClient } from "@/utils/supabase/client";
 import { Separator } from "./ui/separator";
 import { useTheme } from "next-themes";
+import toast from "react-hot-toast";
 
 interface Props {
   userData: {
@@ -25,6 +26,7 @@ interface Props {
 }
 
 export const Header = ({ userData }: Props) => {
+  const router = useRouter();
   const pathname = usePathname();
   const { theme } = useTheme();
 
@@ -36,7 +38,12 @@ export const Header = ({ userData }: Props) => {
 
     supabase.auth
       .signOut()
-      .then(() => window.location.reload())
+      .then(() => {
+        router.refresh();
+        toast.success("Signed out succesfully", {
+          className: "dark:bg-black/80 dark:text-white/95",
+        });
+      })
       .catch((error) => console.log(error));
   };
 

@@ -33,6 +33,7 @@ export default function SeasonPage({ params }: Props) {
 
   const [user, setUser] = useState<User>();
   const [favourites, setFavourites] = useState<DbUserFavourite[]>([]);
+  const [showTitle, setShowTitle] = useState<string>("");
   const [season, setSeason] = useState<TPodcastSeason | "loading" | "error">(
     "loading"
   );
@@ -109,6 +110,7 @@ export default function SeasonPage({ params }: Props) {
           (item: TPodcastSeason) => item.season.toString() === params.seasonId
         );
         setSeason(seasonFound || "error");
+        setShowTitle(response.title || "");
       } else {
         setSeason(response);
       }
@@ -159,6 +161,7 @@ export default function SeasonPage({ params }: Props) {
     const favouriteRowItem: DbInsertFavourite = {
       user_id: user.id,
       show_id: parseInt(params.showId),
+      show_title: showTitle,
       season_id: parseInt(params.seasonId),
       episode_id: episode.episode,
       episode_title: episode.title,

@@ -62,15 +62,16 @@ export type TEpisodePlayHistory = {
 
 export type DbUserFavourite = {
   created_at: string;
-  episode_description: string | null;
-  episode_file: string | null;
-  episode_id: number | null;
-  episode_title: string | null;
+  episode_description: string;
+  episode_file: string;
+  episode_id: number;
+  episode_title: string;
   id: number;
-  season_id: number | null;
-  show_id: number | null;
-  user_id: string | null;
-  was_shared: boolean | null;
+  season_id: number;
+  show_id: number;
+  show_title: string;
+  user_id: string;
+  was_shared: boolean;
 };
 
 export type DbInsertFavourite = {
@@ -82,6 +83,7 @@ export type DbInsertFavourite = {
   id?: number;
   season_id?: number | null;
   show_id?: number | null;
+  show_title?: string | null;
   user_id?: string | null;
   was_shared?: boolean | null;
 };
