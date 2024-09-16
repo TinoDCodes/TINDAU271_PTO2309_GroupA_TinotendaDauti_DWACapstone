@@ -14,11 +14,12 @@ import {
 import { PlayerState, usePlayerStore } from "@/store/podcastPlayer";
 import { Switch } from "./ui/switch";
 import { useTheme } from "next-themes";
+import toast from "react-hot-toast";
 
 export const UserSettings = () => {
   const { resolvedTheme, setTheme } = useTheme();
-  const resetPlayerHistory = usePlayerStore(
-    (state: PlayerState) => state.resetPlayerHistory
+  const { playerHistory, resetPlayerHistory } = usePlayerStore(
+    (state: PlayerState) => state
   );
 
   const handleThemeChange = (checked: boolean) => {
@@ -27,6 +28,14 @@ export const UserSettings = () => {
     } else {
       setTheme("light");
     }
+  };
+
+  const handleResetPlayerHistory = () => {
+    resetPlayerHistory();
+    toast.success("Cleared audio player history", {
+      className: "dark:bg-black/80 dark:text-white/95",
+      icon: "🧹",
+    });
   };
 
   return (
@@ -53,8 +62,11 @@ export const UserSettings = () => {
 
       {/* ---- RESET HISTORY ---- */}
       <AlertDialog>
-        <AlertDialogTrigger asChild>
-          <button className="text-sm lg:text-base text-left text-red-500 px-2 lg:px-4 py-1 lg:py-2 font-medium rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-800/50 hover:scale-95 transition">
+        <AlertDialogTrigger
+          disabled={!playerHistory || playerHistory.length === 0}
+          asChild
+        >
+          <button className="text-sm lg:text-base text-left text-red-500 px-2 lg:px-4 py-1 lg:py-2 font-medium rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-800/50 hover:scale-95 transition disabled:text-zinc-400 disabled:hover:scale-100 disabled:hover:bg-transparent dark:disabled:hover:bg-transparent">
             Reset history
           </button>
         </AlertDialogTrigger>
@@ -70,7 +82,7 @@ export const UserSettings = () => {
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
-              onClick={resetPlayerHistory}
+              onClick={handleResetPlayerHistory}
               className="bg-red-600 hover:bg-red-600 hover:opacity-80 transition dark:font-medium"
             >
               Delete

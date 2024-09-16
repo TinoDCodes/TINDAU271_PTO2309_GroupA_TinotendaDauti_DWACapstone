@@ -17,6 +17,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { type User } from "@supabase/supabase-js";
+import toast from "react-hot-toast";
 
 interface Props {
   params: {
@@ -59,7 +60,6 @@ export default function SeasonPage({ params }: Props) {
       if (!error) {
         setFavourites(favouritesData);
       } else {
-        // TODO: implement toast for error notification
         console.error("Error fetching updated favourites:", error.message);
       }
     },
@@ -152,6 +152,10 @@ export default function SeasonPage({ params }: Props) {
   const handleAddToFavourites = async (episode: TPodcastEpisode) => {
     if (!user) return; // Ensure the user is authenticated
 
+    const toastId = toast.loading("Adding episode to favourites", {
+      className: "dark:bg-black/85 dark:text-white/95",
+    });
+
     const favouriteRowItem: DbInsertFavourite = {
       user_id: user.id,
       show_id: parseInt(params.showId),
@@ -167,11 +171,15 @@ export default function SeasonPage({ params }: Props) {
       .insert([favouriteRowItem]);
 
     if (error) {
-      // TODO: add toast notifications for success and failure
       console.error(error.message, { code: error.code });
+      toast.error("Failed to add episode to favourites", {
+        id: toastId,
+      });
     } else {
-      console.log("Insertion was a success", data);
       await refreshFavourites(user); // Fetch latest favourites after successful insertion
+      toast.success("Episode added to favourites", {
+        id: toastId,
+      });
     }
   };
 
@@ -190,6 +198,10 @@ export default function SeasonPage({ params }: Props) {
   const handleRemoveFromFavourites = async (episode: TPodcastEpisode) => {
     if (!user) return;
 
+    const toastId = toast.loading("Removing episode from favourites", {
+      className: "dark:bg-black/85 dark:text-white/95",
+    });
+
     const { error } = await supabase
       .from("favourites")
       .delete()
@@ -197,12 +209,16 @@ export default function SeasonPage({ params }: Props) {
       .eq("season_id", parseInt(params.seasonId))
       .eq("episode_id", episode.episode);
 
-    // TODO: add toast notifications for success and failure
     if (error) {
       console.error(error.message, { code: error.code });
+      toast.error("Failed to remove episode from favourites", {
+        id: toastId,
+      });
     } else {
-      console.log("Successfully removed item from favourites");
       await refreshFavourites(user); // Fetch latest favourites after successful deletion
+      toast.success("Episode removed from favourites", {
+        id: toastId,
+      });
     }
   };
 
