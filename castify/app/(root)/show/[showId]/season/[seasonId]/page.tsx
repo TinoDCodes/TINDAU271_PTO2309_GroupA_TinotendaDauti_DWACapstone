@@ -166,7 +166,7 @@ export default function SeasonPage({ params }: Props) {
       episode_file: episode.file,
     };
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("favourites")
       .insert([favouriteRowItem]);
 
