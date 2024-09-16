@@ -1,10 +1,13 @@
 "use client";
 
 import { FavouriteEpisodeTile } from "@/components/FavouriteEpisodeTile";
+import { PageErrorUI } from "@/components/PageErrorUI";
 import { SortShows } from "@/components/SortShows";
+import { Skeleton } from "@/components/ui/skeleton";
 import { createClient } from "@/utils/supabase/client";
 import { DbUserFavourite } from "@/utils/types";
 import { type User } from "@supabase/supabase-js";
+import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -96,25 +99,54 @@ export default function FavouritesPage() {
 
   /*---------- LOADING STATE ----------*/
   if (favourites === "loading") {
-    return <div className="wrapper">loading....</div>;
+    return (
+      <div className="wrapper flex flex-col gap-3">
+        <h2 className="font-raleway font-extrabold text-center text-base lg:text-lg text-zinc-500 dark:text-white/85">
+          Favourite Episodes
+        </h2>
+        <Skeleton className="w-full h-[8rem]" />
+        <Skeleton className="w-full h-[8rem]" />
+        <Skeleton className="w-full h-[8rem]" />
+        <Skeleton className="w-full h-[8rem]" />
+      </div>
+    );
   }
 
   /*---------- ERROR STATE ----------*/
   if (favourites === "error") {
-    return <div className="wrapper">Oops something happened</div>;
+    return (
+      <PageErrorUI text="Sorry, something went wrong. Please try again or contact support if the problem persists." />
+    );
   }
 
   return (
     <div className="wrapper dark:text-white">
+      <h2 className="font-raleway font-extrabold text-center text-base lg:text-lg text-zinc-500 dark:text-white/85">
+        Favourite Episodes
+      </h2>
+
       {favourites.length < 1 ? (
         /* ---- View when there are no favourites ---- */
-        <>No favourites found</>
-      ) : (
-        <div className="flex flex-col gap-3">
-          <h2 className="font-raleway font-extrabold text-center text-base lg:text-lg text-zinc-500 dark:text-white/85">
-            Favourite Episodes
-          </h2>
+        <article className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-1">
+          <Image
+            src="/icons/polar-bear.svg"
+            alt="Like icon"
+            height="0"
+            width="0"
+            sizes="100vw"
+            className="h-24 w-24 lg:h-32 lg:w-32 opacity-65 dark:opacity-75"
+          />
 
+          <h4 className="font-semibold text-center text-zinc-600 dark:text-white/90">
+            No favourites yet
+          </h4>
+          <small className="text-center text-zinc-400 dark:text-zinc-300">
+            Keep track of your favourite epsiodes by clicking the ❤ icon.
+          </small>
+        </article>
+      ) : (
+        /* ---- View when there are favourites ---- */
+        <div className="flex flex-col gap-3">
           <SortShows />
 
           <section className="flex flex-col gap-3 mt-4">
