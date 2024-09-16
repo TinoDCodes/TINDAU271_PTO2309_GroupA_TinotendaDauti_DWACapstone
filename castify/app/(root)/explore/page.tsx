@@ -5,7 +5,6 @@ import { ShowPreviewsGrid } from "@/components/ShowPreviewsGrid";
 import { SortShows } from "@/components/SortShows";
 import { genresMap } from "@/utils/constants";
 import { TPodcastPreview, TSortOptionValue } from "@/utils/types";
-import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 
 interface Props {
