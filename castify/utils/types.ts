@@ -70,6 +70,7 @@ export type DbUserFavourite = {
   season_id: number;
   show_id: number;
   show_title: string;
+  show_updated: string;
   user_id: string;
   was_shared: boolean;
 };
@@ -84,6 +85,7 @@ export type DbInsertFavourite = {
   season_id?: number | null;
   show_id?: number | null;
   show_title?: string | null;
+  show_updated?: string | null;
   user_id?: string | null;
   was_shared?: boolean | null;
 };

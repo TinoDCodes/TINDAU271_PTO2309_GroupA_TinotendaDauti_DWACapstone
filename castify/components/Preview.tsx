@@ -35,7 +35,6 @@ export const Preview = ({ previewShow }: Props) => {
         alt="Podcast show image"
         height={192}
         width={192}
-        priority
         sizes="(min-width: 768px) 17vw, (min-width: 1024px) 12vw, 26vw"
         className="w-full h-auto"
       />

@@ -55,7 +55,10 @@ export const FavouriteEpisodeTile = ({ favourite, removeFavourite }: Props) => {
           {favourite.episode_description || "(no description)"}
         </p>
         <small className="text-xs text-zinc-400 font-medium">
-          Added: {formatDate(new Date(favourite.created_at), "PP")}
+          Show updated: {formatDate(new Date(favourite.show_updated), "PP")}
+        </small>
+        <small className="text-xs text-zinc-400 font-medium">
+          Added: {formatDate(new Date(favourite.created_at), "PPp")}
         </small>
       </section>
 

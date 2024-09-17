@@ -5,19 +5,72 @@ import { PageErrorUI } from "@/components/PageErrorUI";
 import { SortShows } from "@/components/SortShows";
 import { Skeleton } from "@/components/ui/skeleton";
 import { createClient } from "@/utils/supabase/client";
-import { DbUserFavourite } from "@/utils/types";
+import { DbUserFavourite, TSortOptionValue } from "@/utils/types";
 import { type User } from "@supabase/supabase-js";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-export default function FavouritesPage() {
+interface Props {
+  searchParams: {
+    sort?: TSortOptionValue;
+  };
+}
+
+export default function FavouritesPage({ searchParams }: Props) {
   const supabase = createClient();
 
   const [user, setUser] = useState<User>();
   const [favourites, setFavourites] = useState<
     DbUserFavourite[] | "loading" | "error"
   >("loading");
+
+  /**
+   * Sorts an array of user favourites based on the sort option from the search parameters.
+   *
+   * 1. 'titleAsc' - Sorts by title from A to Z.
+   * 2. 'titleDesc' - Sorts by title from Z to A.
+   * 3. 'dateAsc' - Sorts by date updated in ascending order.
+   * 4. 'dateDesc' - Sorts by date updated in descending order.
+   *
+   * @param {TPodcastPreview[]} shows - The array of podcast shows to sort.
+   * @returns {TPodcastPreview[]} The sorted array of podcast shows.
+   */
+  const sortFavourites = useCallback(
+    (favouriteEpisodes: DbUserFavourite[]) => {
+      const sortOption = searchParams.sort;
+
+      switch (sortOption) {
+        case "titleAsc":
+          return favouriteEpisodes.sort((a, b) =>
+            a.show_title.localeCompare(b.show_title)
+          );
+
+        case "titleDesc":
+          return favouriteEpisodes.sort((a, b) =>
+            b.show_title.localeCompare(a.show_title)
+          );
+
+        case "dateAsc":
+          return favouriteEpisodes.sort(
+            (a, b) =>
+              new Date(a.show_updated).getTime() -
+              new Date(b.show_updated).getTime()
+          );
+
+        case "dateDesc":
+          return favouriteEpisodes.sort(
+            (a, b) =>
+              new Date(b.show_updated).getTime() -
+              new Date(a.show_updated).getTime()
+          );
+
+        default:
+          return favouriteEpisodes; // Return original array if no matching sort option
+      }
+    },
+    [searchParams.sort]
+  );
 
   /**
    * Fetches the user's favourite episodes from the database, ordered by show and season, and updates the state.
@@ -34,13 +87,17 @@ export default function FavouritesPage() {
         .order("season_id", { ascending: true });
 
       if (!error) {
-        setFavourites(data);
+        let sortedFavourites = data;
+        if (searchParams.sort) {
+          sortedFavourites = sortFavourites(sortedFavourites);
+        }
+        setFavourites(sortedFavourites);
       } else {
         console.error(error.message, { code: error.code });
         setFavourites("error");
       }
     },
-    [supabase]
+    [supabase, searchParams.sort, sortFavourites]
   );
 
   /**
@@ -48,6 +105,7 @@ export default function FavouritesPage() {
    */
   useEffect(() => {
     const getUser = async () => {
+      setFavourites("loading");
       const { data: userData, error: userError } =
         await supabase.auth.getUser();
 
@@ -61,7 +119,7 @@ export default function FavouritesPage() {
     };
 
     getUser();
-  }, [supabase, refreshFavourites]);
+  }, [supabase, refreshFavourites, searchParams.sort]);
 
   /**
    * Removes an episode from the user's favourites and updates the UI accordingly.

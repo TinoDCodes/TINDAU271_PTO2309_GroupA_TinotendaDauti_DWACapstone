@@ -35,6 +35,7 @@ export default function SeasonPage({ params }: Props) {
   const [user, setUser] = useState<User>();
   const [favourites, setFavourites] = useState<DbUserFavourite[]>([]);
   const [showTitle, setShowTitle] = useState<string>("");
+  const [showUpdateDate, setShowUpdateDate] = useState<string>("");
   const [season, setSeason] = useState<TPodcastSeason | "loading" | "error">(
     "loading"
   );
@@ -112,6 +113,7 @@ export default function SeasonPage({ params }: Props) {
         );
         setSeason(seasonFound || "error");
         setShowTitle(response.title || "");
+        setShowUpdateDate(response.updated);
       } else {
         setSeason(response);
       }
@@ -163,6 +165,7 @@ export default function SeasonPage({ params }: Props) {
       user_id: user.id,
       show_id: parseInt(params.showId),
       show_title: showTitle,
+      show_updated: showUpdateDate,
       season_id: parseInt(params.seasonId),
       episode_id: episode.episode,
       episode_title: episode.title,

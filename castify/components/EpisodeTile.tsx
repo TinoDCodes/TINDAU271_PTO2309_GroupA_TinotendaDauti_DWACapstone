@@ -52,7 +52,7 @@ export const EpisodeTile = ({
           {episode.title}
         </h4>
         <p className="text-xs lg:text-sm text-zinc-500 dark:text-zinc-300 max-w-[55vw] md:max-w-[70vw] line-clamp-3 md:line-clamp-4 lg:line-clamp-none">
-          {episode.description}
+          {episode.description || "(no description)"}
         </p>
 
         {/* ---- SECTION SHOWING EPISODE'S PLAY HISTORY ---- */}
