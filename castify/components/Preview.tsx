@@ -33,11 +33,11 @@ export const Preview = ({ previewShow }: Props) => {
       <Image
         src={previewShow.image}
         alt="Podcast show image"
+        height={192}
+        width={192}
         priority
-        height="0"
-        width="0"
-        sizes="100vw"
-        className="w-full h-[6rem] md:h-[9rem] lg:h-[12rem] "
+        sizes="(min-width: 768px) 17vw, (min-width: 1024px) 12vw, 26vw"
+        className="w-full h-auto"
       />
 
       <h5 className="text-xs lg:text-base font-extrabold lg:font-bold text-center line-clamp-2">

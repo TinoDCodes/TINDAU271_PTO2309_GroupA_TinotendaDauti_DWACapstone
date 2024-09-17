@@ -58,9 +58,9 @@ export const Header = ({ userData }: Props) => {
               : "/assets/castify-logo-dark.png"
           }
           alt="Castify logo"
-          height="0"
-          width="0"
-          sizes="100vw"
+          height={100}
+          width={230}
+          sizes="(min-width: 1040px) 150px, (min-width: 780px) 120px, 90px"
           className="h-[1.9rem] w-[5.6rem] md:h-[2.5rem] md:w-[7.5rem] lg:h-[3.1rem] lg:w-[9.4rem]"
           priority
         />

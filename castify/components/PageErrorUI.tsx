@@ -11,9 +11,9 @@ export const PageErrorUI = ({ text }: Props) => {
         <Image
           src="/icons/error-triangle.svg"
           alt="Error icon"
-          height="0"
-          width="0"
-          sizes="100vw"
+          height={112}
+          width={112}
+          sizes="(min-width: 1024px) 112px, 80px"
           className="h-20 w-20 lg:h-28 lg:w-28 opacity-25 dark:invert dark:opacity-75"
         />
 

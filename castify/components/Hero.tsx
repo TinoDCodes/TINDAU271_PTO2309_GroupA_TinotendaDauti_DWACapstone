@@ -32,9 +32,9 @@ export const Hero = () => {
       <Image
         src="/assets/hero-image.png"
         alt="Hero image"
-        height="0"
-        width="0"
-        sizes="100vw"
+        height={530}
+        width={800}
+        sizes="(min-width: 1040px) 450px, (min-width: 780px) 300px, 150px"
         priority
         className="h-[7.5rem] w-[9.375rem] md:h-[12.5rem] md:w-[18.75rem] lg:h-[18.75rem] lg:w-[28.125rem]"
       />

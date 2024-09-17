@@ -259,9 +259,9 @@ export default function SeasonPage({ params }: Props) {
           <Image
             src={season.image}
             alt="cover image"
-            height="0"
-            width="0"
-            sizes="100vw"
+            height={96}
+            width={96}
+            sizes="96px"
             className="md:hidden h-[6rem] w-[5rem] rounded"
           />
           <div className="flex flex-col gap-1 items-center justify-center text-center text-[#845ec2] dark:text-white">
@@ -277,9 +277,9 @@ export default function SeasonPage({ params }: Props) {
         <Image
           src={season.image}
           alt="cover image"
-          height="0"
-          width="0"
-          sizes="100vw"
+          height={112}
+          width={112}
+          sizes="(min-width: 768px) 96px, (min-width: 1024px) 112px"
           className="hidden md:flex md:h-[6rem] md:w-[5rem] lg:h-[7rem] lg:w-[6rem] rounded"
         />
       </section>

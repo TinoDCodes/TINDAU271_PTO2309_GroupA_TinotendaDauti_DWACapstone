@@ -131,9 +131,9 @@ export default function FavouritesPage() {
           <Image
             src="/icons/polar-bear.svg"
             alt="Like icon"
-            height="0"
-            width="0"
-            sizes="100vw"
+            height={128}
+            width={128}
+            sizes="(min-width: 1024px) 128px, 96px"
             className="h-24 w-24 lg:h-32 lg:w-32 opacity-65 dark:opacity-75"
           />
 

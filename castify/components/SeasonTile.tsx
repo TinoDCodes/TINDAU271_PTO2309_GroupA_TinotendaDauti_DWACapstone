@@ -17,9 +17,9 @@ export const SeasonTile = ({ season, onSeasonClick }: Props) => {
         <Image
           src={season.image}
           alt="Season Cover image"
-          height="0"
-          width="0"
-          sizes="100vw"
+          height={80}
+          width={80}
+          sizes="(min-width: 1024px) 80px, (min-width: 768px) 64px, 48px"
           className="h-[4rem] lg:h-[5rem] w-[3rem] lg:w-[4rem] rounded-sm"
           priority
         />
