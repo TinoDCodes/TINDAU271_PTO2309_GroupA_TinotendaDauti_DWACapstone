@@ -64,3 +64,26 @@ export const checkIsFavourite = (
     ? true
     : false;
 };
+
+/**
+ * Generates a shareable link for a user's favourites by encoding the user ID.
+ *
+ * @param {string} user_id - The user's ID to encode.
+ * @returns {string} The shareable URL containing the base64-encoded user ID.
+ */
+export const createShareableLink = (user_id: string) => {
+  const encodedUserId = btoa(user_id); // base64 encode the user_id
+  const shareableURL = `${process.env.NEXT_PUBLIC_SITE_BASE_URL}/favourites/shared/${encodedUserId}`;
+  return shareableURL;
+};
+
+/**
+ * Decodes the user ID from a shareable link.
+ *
+ * @param {string} encodedUserId - The base64-encoded user ID from the shareable link.
+ * @returns {string} The decoded user ID.
+ */
+export const getUserIdFromShareableLink = (encodedUserId: string) => {
+  const decodedUserId = atob(encodedUserId); // base64 decode
+  return decodedUserId;
+};

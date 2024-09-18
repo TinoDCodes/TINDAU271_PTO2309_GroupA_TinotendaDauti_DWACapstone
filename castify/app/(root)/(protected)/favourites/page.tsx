@@ -2,6 +2,7 @@
 
 import { FavouriteEpisodeTile } from "@/components/FavouriteEpisodeTile";
 import { PageErrorUI } from "@/components/PageErrorUI";
+import { ShareFavouritesDialog } from "@/components/ShareFavouritesDialog";
 import { SortShows } from "@/components/SortShows";
 import { Skeleton } from "@/components/ui/skeleton";
 import { createClient } from "@/utils/supabase/client";
@@ -179,7 +180,7 @@ export default function FavouritesPage({ searchParams }: Props) {
 
   return (
     <div className="wrapper dark:text-white">
-      <h2 className="font-raleway font-extrabold text-center text-base lg:text-lg text-zinc-500 dark:text-white/85">
+      <h2 className="mb-2 font-raleway font-extrabold text-center text-base lg:text-lg text-zinc-500 dark:text-white/85">
         Favourite Episodes
       </h2>
 
@@ -205,7 +206,10 @@ export default function FavouritesPage({ searchParams }: Props) {
       ) : (
         /* ---- View when there are favourites ---- */
         <div className="flex flex-col gap-3">
-          <SortShows />
+          <div className="flex items-center">
+            <ShareFavouritesDialog user={user} />
+            <SortShows />
+          </div>
 
           <section className="flex flex-col gap-3 mt-4">
             {favourites.map((item) => (
