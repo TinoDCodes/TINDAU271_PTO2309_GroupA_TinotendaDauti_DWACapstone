@@ -23,6 +23,13 @@ interface Props {
 export const ShareFavouritesDialog = ({ user }: Props) => {
   const shareableFavouritesUrl = createShareableLink(user!.id);
 
+  /**
+   * Handles copying the shareable favourites URL to the clipboard and shows a toast notification.
+   *
+   * @returns {Promise<void>} - Resolves once the URL is copied or an error occurs.
+   *
+   * @throws {Error} If copying to the clipboard fails, an error toast will be displayed.
+   */
   const handleCopyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(shareableFavouritesUrl);
@@ -30,8 +37,13 @@ export const ShareFavouritesDialog = ({ user }: Props) => {
       toast.success("Copied!", {
         className: "dark:bg-black/85 dark:text-white/95",
       });
-    } catch (error: any) {
-      console.error(error.message);
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.error("Unknown error while trying to copy to clipboard");
+      }
+
       toast.error("Failed to copy", {
         className: "dark:bg-black/85 dark:text-white/95",
       });

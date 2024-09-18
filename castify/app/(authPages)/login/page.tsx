@@ -15,6 +15,7 @@ import Link from "next/link";
 import { login } from "./actions";
 import { useEffect, useState } from "react";
 import { useFormStatus } from "react-dom";
+import { SignUpConfirmation } from "@/components/SignUpConfirmation";
 
 interface Props {
   searchParams: {
@@ -40,14 +41,32 @@ function Submit() {
 
 export default function LoginPage({ searchParams }: Props) {
   const [loginError, setLoginError] = useState<string>("");
+  const [confirmationDialogOpen, setConfirmationDialogOpen] =
+    useState<boolean>(false);
 
-  // used to update the error state and show an error message if the login failed.
+  /* - updatse the error state to show an error message if the login failed
+   * - shows the sign up confirmation dialog if signup = "success" in the searchParams
+   */
   useEffect(() => {
     if (searchParams.error) setLoginError(searchParams.error);
+
+    if (searchParams.signup && searchParams.signup === "success")
+      setConfirmationDialogOpen(true);
   }, [searchParams]);
+
+  /**
+   * handles closing the confirmation dialog
+   */
+  const handleCloseConfirmationDialog = () => {
+    setConfirmationDialogOpen(false);
+  };
 
   return (
     <div className="bg-violet-50 dark:bg-black w-full h-[100vh] flex items-center justify-center">
+      <SignUpConfirmation
+        isOpen={confirmationDialogOpen}
+        closeDialog={handleCloseConfirmationDialog}
+      />
       <Card className="w-[20rem] py-4 lg:w-[26rem] lg:px-8 dark:bg-zinc-900">
         <CardHeader className="flex flex-col items-center text-center lg:mb-2">
           <CardTitle className="font-bold text-lg lg:text-2xl font-raleway">
