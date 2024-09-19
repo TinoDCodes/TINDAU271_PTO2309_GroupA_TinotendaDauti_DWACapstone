@@ -217,6 +217,7 @@ export default function FavouritesPage({ searchParams }: Props) {
                 key={item.id}
                 favourite={item}
                 removeFavourite={() => handleRemoveEpisodeFromFavourites(item)}
+                isShared={false}
               />
             ))}
           </section>

@@ -8,10 +8,15 @@ import { createEpisodeIdentifier } from "@/utils/helpers";
 
 interface Props {
   favourite: DbUserFavourite;
-  removeFavourite: () => void;
+  isShared: boolean;
+  removeFavourite?: () => void;
 }
 
-export const FavouriteEpisodeTile = ({ favourite, removeFavourite }: Props) => {
+export const FavouriteEpisodeTile = ({
+  favourite,
+  removeFavourite,
+  isShared,
+}: Props) => {
   const { currentlyPlaying, setCurrentlyPlaying } = usePlayerStore(
     (state: PlayerState) => state
   );
@@ -71,13 +76,15 @@ export const FavouriteEpisodeTile = ({ favourite, removeFavourite }: Props) => {
           Play <Play className="h-3 w-3 ml-2 text-white fill-white" />
         </Button>
 
-        <Button
-          onClick={removeFavourite}
-          variant="link"
-          className="text-red-500 w-fit md:w-20 h-7 p-0"
-        >
-          Remove
-        </Button>
+        {!isShared && (
+          <Button
+            onClick={removeFavourite}
+            variant="link"
+            className="text-red-500 w-fit md:w-20 h-7 p-0"
+          >
+            Remove
+          </Button>
+        )}
       </section>
     </div>
   );
