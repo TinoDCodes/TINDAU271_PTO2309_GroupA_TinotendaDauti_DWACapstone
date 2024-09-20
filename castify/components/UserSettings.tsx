@@ -42,7 +42,7 @@ export const UserSettings = () => {
     <div className="w-full flex flex-col gap-2 my-1">
       <Link
         href="/favourites"
-        className="md:hidden flex items-center gap-2 text-sm text-zinc-600 dark:text-white/90 py-1 px-2 rounded hover:bg-zinc-100 transition"
+        className="md:hidden flex items-center gap-2 text-sm text-zinc-600 dark:text-white/90 py-1 px-2 rounded hover:bg-zinc-100 dark:hover:bg-zinc-800 transition"
       >
         <HeartIcon color="#dc2626" fill="#dc2626" className="h-3 w-3" />{" "}
         Favourites

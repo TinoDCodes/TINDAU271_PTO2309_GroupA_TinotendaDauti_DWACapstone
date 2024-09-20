@@ -33,7 +33,7 @@ export const SearchInput = () => {
         type="search"
         placeholder="Search for shows..."
         value={searchInputValue}
-        className="text-sm md:text-base h-8 md:h-10 p-4 max-w-[40rem] rounded-l-full border-r-0"
+        className="text-sm md:text-base h-8 md:h-10 p-4 md:max-w-[30rem] lg:max-w-[40rem] rounded-l-full border-r-0"
         onChange={(e) => setSearchInputValue(e.target.value)}
         required
       />

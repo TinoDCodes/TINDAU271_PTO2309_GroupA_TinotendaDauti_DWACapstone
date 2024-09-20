@@ -111,7 +111,7 @@ export const HomeShowsCarousel = ({ shows, section }: Props) => {
         {showsToDisplay.map((show) => (
           <CarouselItem
             key={show.id}
-            className="basis-1/3 md:basis-[22%] lg:basis-1/5 xl:basis-1/6 pb-2"
+            className="basis-1/3 md:basis-[22%] lg:basis-1/4 xl:basis-1/6 pb-2"
           >
             <Preview previewShow={show} />
           </CarouselItem>
