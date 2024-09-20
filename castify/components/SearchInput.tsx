@@ -42,6 +42,8 @@ export const SearchInput = () => {
         variant="ghost"
         type="submit"
         name="search-button"
+        id="search-button"
+        aria-label="search button"
         disabled={!searchInputValue.trim()}
         className="border h-[33px] md:h-10 border-l-0 rounded-l-none rounded-r-full w-fit"
       >

@@ -39,9 +39,9 @@ export const Preview = ({ previewShow }: Props) => {
         className="w-full h-auto"
       />
 
-      <h5 className="text-xs lg:text-base font-extrabold lg:font-bold text-center line-clamp-2">
+      <h3 className="text-xs lg:text-base font-extrabold lg:font-bold text-center line-clamp-2">
         {previewShow.title}
-      </h5>
+      </h3>
       <small className="font-extrabold text-[0.65rem] lg:text-sm text-[#ff9671]">
         {previewShow.seasons} Seasons
       </small>

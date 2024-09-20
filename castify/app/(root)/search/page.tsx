@@ -88,9 +88,9 @@ export default function SearchPage({ searchParams }: Props) {
 
   return (
     <div className="wrapper">
-      <h5 className="text-zinc-400 dark:text-zinc-200 font-extrabold lg:text-lg">
+      <h2 className="text-zinc-400 dark:text-zinc-200 font-extrabold lg:text-lg">
         search results for &quot;{searchParams.title}&quot;
-      </h5>
+      </h2>
 
       <ShowPreviewsGrid showsToDisplay={showsFound} />
     </div>
