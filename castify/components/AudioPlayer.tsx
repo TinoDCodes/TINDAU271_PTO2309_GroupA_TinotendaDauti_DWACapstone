@@ -169,7 +169,7 @@ export const AudioPlayer = () => {
   }
 
   return (
-    <div className="wrapper sticky bottom-0 z-50">
+    <div className="wrapper fixed bottom-0 z-50">
       <div className="w-full h-fit bg-[#4b4453df] dark:bg-zinc-700/90 rounded-lg flex flex-col gap-2 lg:gap-3 items-center justify-center py-2 lg:py-4">
         <audio
           ref={audioRef}
