@@ -36,3 +36,66 @@ git clone https://github.com/TinoDCodes/TINDAU271_PTO2309_GroupA_TinotendaDauti_
 cd castify
 
 ```
+
+Install the dependencies:
+
+```bash
+npm install
+```
+
+Create a `.env` file in the root directory and add the following environment variables:
+
+```bash
+NEXT_PUBLIC_SITE_BASE_URL=<your-site-url>
+NEXT_PUBLIC_SUPABASE_URL=<your-supabase-url>
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<your-supabase-anon-key>
+```
+
+Run the development server:
+
+```bash
+npm run dev
+```
+
+Open your browser and navigate to:
+
+```bash
+http://localhost:3000
+```
+
+### **Environment Variables**
+
+- `NEXT_PUBLIC_SITE_BASE_URL`: Base URL of your app (e.g., http://localhost:3000).
+- `NEXT_PUBLIC_SUPABASE_URL`: Supabase API URL.
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Supabase anonymous API key.
+
+## **Key Features**
+
+1. **Protected Routes**: The app has protected routes, preventing unauthorized access to certain views, such as the favorites list.
+
+2. **Favorites Management**: Users can add or remove podcast episodes from their list of favorites. These changes are reflected in real-time on the UI without the need to refresh the page.
+
+3. **Share Favorite Episodes**: Users can generate a public, shareable URL containing their favorite podcast episodes.
+
+4. **Dark/Light Mode**: Users can switch between dark and light themes, which is preserved across sessions.
+
+5. **Persistent Audio Player**: The audio player stays accessible as users navigate throughout the app, maintaining the current playing episode and position.
+
+## **Folder Structure**
+
+```
+├── app               # Main application folder (App Router)
+├── components        # Shared, Reusable UI components
+  ├── ui              # Shadcn UI components
+├── hooks             # Custom React hooks
+├── lib               # Libraries or helper functions
+├── node_modules      # Dependencies
+├── providers         # Context providers for app-wide state management
+├── public            # Public assets (images, fonts, etc.)
+├── store             # Zustand store for state management
+├── utils             # Utility functions, helpers and constants
+  ├── supabase        # Supabase utilities (e.g. clients and middleware setup)
+  └── types           # TypeScript type definitions
+```
+
+
