@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     url: "https://castify-streaming.netlify.app/",
     images: [
       {
-        url: "https://castify-streaming.netlify.app/assets/castify-logo-light.png",
+        url: "https://castify-streaming.netlify.app/assets/meta-logo-image.png",
       },
     ],
   },
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
       "Castify is a modern podcast app that lets you browse, stream, and track your favorite shows and episodes with ease.",
     images: [
       {
-        url: "https://castify-streaming.netlify.app/assets/castify-logo-light.png",
+        url: "https://castify-streaming.netlify.app/assets/meta-logo-image.png",
       },
     ],
     site: "https://castify-streaming.netlify.app/",
