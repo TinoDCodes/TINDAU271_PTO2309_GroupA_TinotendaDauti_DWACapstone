@@ -6,6 +6,11 @@ This project is the final capstone in the CodeSpace Software Development Program
 
 Users can explore various podcasts, manage a list of favorites, share favorite episodes, and enjoy an immersive audio playback experience with a persistent player interface that stays active while browsing.
 
+Live site: [Castify App](https://castify-streaming.netlify.app/)
+
+![Screenshot 2024-09-20 141503](https://github.com/user-attachments/assets/b2f1a429-2f24-4e0e-869d-10916cf083a2)
+
+
 ## **Features**
 
 - **Authentication**: Secure user sign-up and login using Supabase authentication.
