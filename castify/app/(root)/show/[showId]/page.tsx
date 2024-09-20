@@ -77,9 +77,9 @@ export default function ShowPage({ params }: Props) {
         <Image
           src={show.image}
           alt="Show Cover Image"
-          height={336}
-          width={336}
-          sizes="(min-width: 1024px) 20vw, (min-width: 768px) 35vw, 70vw"
+          height={340}
+          width={340}
+          sizes="(min-width: 1024px) 20vw, (min-width: 768px) 35vw, 75vw"
           className="h-[20rem] w-full md:w-[19rem] rounded-t-lg rounded-b-none md:rounded-lg"
           priority
         />

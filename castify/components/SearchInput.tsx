@@ -41,6 +41,7 @@ export const SearchInput = () => {
         size="icon"
         variant="ghost"
         type="submit"
+        name="search-button"
         disabled={!searchInputValue.trim()}
         className="border h-[33px] md:h-10 border-l-0 rounded-l-none rounded-r-full w-fit"
       >
