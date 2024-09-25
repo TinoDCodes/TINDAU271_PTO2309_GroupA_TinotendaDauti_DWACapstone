@@ -47,7 +47,7 @@ export const EpisodeTile = ({
       </strong>
 
       {/* ---- MIDDLE / EPISODE DETAILS SECTION ---- */}
-      <article className="flex flex-col gap-1 text-left ml-4 lg:ml-7">
+      <article className="flex flex-col gap-1 text-left ml-4 lg:ml-7 w-full">
         <h4 className="font-bold text-sm lg:text-base max-w-[60vw] line-clamp-2">
           {episode.title}
         </h4>
@@ -70,7 +70,7 @@ export const EpisodeTile = ({
                   : [episodeHistory.progress!]
               }
               max={episodeHistory.episodeLength}
-              className="h-1 opacity-60"
+              className="h-1 opacity-60 w-[75%]"
             />
             {!episodeHistory.wasPlayedFully && (
               <small className="text-zinc-400 font-medium text-xs lg:text-sm">
